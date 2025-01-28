@@ -1,0 +1,13 @@
+error: not logged in
+error: not logged in
+error: not logged in
+error: not logged in
+error: not logged in
+enter account name
+login successful
+logged out
+error: not logged in
+error: not logged in
+error: not logged in
+error: not logged in
+error: not logged in

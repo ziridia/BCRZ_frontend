@@ -1,0 +1,2 @@
+select desired session type (admin, standard)
+error: invalid session type
