@@ -1,0 +1,8 @@
+select desired session type (admin, standard)
+login successful
+enter account name
+enter account number
+account deleted
+enter account name
+error: account is deleted
+logged out

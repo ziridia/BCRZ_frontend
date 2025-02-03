@@ -1,0 +1,8 @@
+login
+admin
+delete
+John Doe
+00001
+withdrawal
+John Doe
+logout
