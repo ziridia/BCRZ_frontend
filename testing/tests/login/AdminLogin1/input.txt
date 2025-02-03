@@ -1,4 +1,3 @@
 login
 admin
-John Doe
 logout

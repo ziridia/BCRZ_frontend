@@ -2,3 +2,4 @@ login
 standard
 John Doe
 login
+logout

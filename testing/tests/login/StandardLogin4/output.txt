@@ -1,0 +1,9 @@
+select desired session type (admin, standard)
+logged in
+enter account name
+enter account number
+account deleted
+logged out
+select desired session type (admin, standard)
+enter account name
+error: account does not exist

@@ -1,3 +1,0 @@
-select desired session type (admin, standard)
-enter account name
-error: account not on file

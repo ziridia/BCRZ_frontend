@@ -1,3 +1,3 @@
 select desired session type (admin, standard)
-enter name
-error: invalid name
+login successful
+logged out

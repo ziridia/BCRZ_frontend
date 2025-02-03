@@ -2,3 +2,4 @@ select desired session type (admin, standard)
 enter account name
 login successful
 error: already logged in
+logged out
