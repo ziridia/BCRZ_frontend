@@ -1,0 +1,7 @@
+login
+standard
+Withdrawal1
+withdrawal
+00006
+250.000001
+logout

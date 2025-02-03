@@ -1,0 +1,6 @@
+select desired session type (admin, standard)
+enter account name
+login successful
+enter account number
+error: invalid account number
+logged out

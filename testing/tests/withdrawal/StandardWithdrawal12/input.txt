@@ -1,0 +1,10 @@
+login
+standard
+Rich
+withdrawal
+00002
+400.00
+withdrawal
+00001
+400.00
+logout

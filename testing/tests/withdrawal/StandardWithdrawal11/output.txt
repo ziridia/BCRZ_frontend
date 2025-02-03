@@ -1,0 +1,7 @@
+select desired session type (admin, standard)
+enter account name
+login successful
+enter account number
+enter amount to withdraw
+error: cannot withdraw more than $500.00 per session
+logged out

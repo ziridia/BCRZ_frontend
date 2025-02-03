@@ -1,0 +1,7 @@
+login
+admin
+withdrawal
+Withdrawal2
+00007
+500
+logout

@@ -1,0 +1,6 @@
+login
+admin
+withdrawal
+John Doe
+99999
+logout

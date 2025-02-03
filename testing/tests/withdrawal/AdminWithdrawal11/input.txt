@@ -1,0 +1,7 @@
+login
+admin
+withdrawal
+John Doe
+00001
+500.01
+logout

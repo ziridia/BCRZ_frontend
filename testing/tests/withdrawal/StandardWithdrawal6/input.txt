@@ -1,0 +1,7 @@
+login
+standard
+Withdrawal2
+withdrawal
+00007
+500
+logout
