@@ -2,5 +2,5 @@ select desired session type (admin, standard)
 login successful
 enter account name
 Enter initial balance for the account
-Account Created with initial balance of $99,999.00
+Account Created with initial balance of $999,999.99
 logged out

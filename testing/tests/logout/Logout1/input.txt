@@ -1,7 +1,5 @@
+logout
 login
 standard
 John Doe
-deposit
-00001
-0
 logout

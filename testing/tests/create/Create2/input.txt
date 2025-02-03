@@ -2,5 +2,5 @@ login
 admin
 create
 Forest Gump
-99999.99
+999999.99
 logout

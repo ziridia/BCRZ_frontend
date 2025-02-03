@@ -1,3 +1,4 @@
+error: must login first
 select desired session type (admin, standard)
 enter account name
 login successful
