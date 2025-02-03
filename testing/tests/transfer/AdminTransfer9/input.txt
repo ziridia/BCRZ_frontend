@@ -1,0 +1,6 @@
+login
+admin
+transfer
+John Doe
+99999
+logout

@@ -1,0 +1,9 @@
+login
+standard
+Rich
+transfer
+00001
+Broke
+00004
+100,000.00
+logout

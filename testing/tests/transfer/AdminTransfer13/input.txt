@@ -1,0 +1,15 @@
+login
+admin
+transfer
+Rich
+00001
+Broke
+00004
+800
+transfer
+Rich
+00001
+Broke
+00004
+800
+logout

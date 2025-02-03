@@ -1,0 +1,9 @@
+login
+admin
+transfer
+Rich
+00002
+Broke
+00004
+1000
+logout

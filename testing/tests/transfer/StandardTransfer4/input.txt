@@ -1,0 +1,9 @@
+login
+standard
+John Doe
+transfer
+00001
+Broke
+00004
+4294967296
+logout

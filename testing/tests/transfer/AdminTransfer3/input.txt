@@ -1,0 +1,9 @@
+login
+admin
+transfer
+John Doe
+00001
+Broke
+00004
+250
+logout

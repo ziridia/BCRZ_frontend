@@ -1,0 +1,14 @@
+select desired session type (admin, standard)
+enter account name
+login successful
+enter account number to transfer from
+enter account name to transfer to
+enter account number to transfer to
+enter amount to transfer
+transfer successful
+enter account number to transfer from
+enter account name to transfer to
+enter account number to transfer to
+enter amount to transfer
+error: cannot transfer more than $1000 per session
+logged out

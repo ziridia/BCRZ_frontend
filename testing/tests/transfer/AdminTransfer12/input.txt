@@ -1,0 +1,9 @@
+login
+admin
+transfer
+John Doe
+00001
+Rich
+00004
+100
+logout

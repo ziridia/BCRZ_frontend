@@ -1,0 +1,7 @@
+select desired session type (admin, standard)
+enter account name
+login successful
+enter account number to transfer from
+enter account name to transfer to
+error: account does not exist
+logged out

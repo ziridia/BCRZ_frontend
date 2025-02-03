@@ -1,0 +1,7 @@
+login
+admin
+transfer
+John Doe
+00001
+fakeaccount
+logout
