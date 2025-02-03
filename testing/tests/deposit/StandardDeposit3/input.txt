@@ -1,0 +1,7 @@
+login
+standard
+deposit
+John Doe
+00001
+1,000,000
+logout

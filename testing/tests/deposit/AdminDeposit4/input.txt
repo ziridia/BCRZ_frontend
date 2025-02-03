@@ -2,6 +2,5 @@ login
 admin
 deposit
 John Doe
-00001
-0
+00255
 logout

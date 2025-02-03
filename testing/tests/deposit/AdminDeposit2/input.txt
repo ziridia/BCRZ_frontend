@@ -1,0 +1,7 @@
+login
+admin
+deposit
+John Doe
+99999
+100
+logout
