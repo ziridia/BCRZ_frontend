@@ -1,7 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-enter account number
-enter amount to deposit
-successful deposit
-logged out

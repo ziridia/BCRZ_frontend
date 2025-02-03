@@ -4,7 +4,6 @@ enter account name
 enter account number
 enter amount to deposit
 Successful deposit
-widthdrawl
-enter amount to widthdrawl
+enter amount to withdraw
 error: funds deposited in current session cannot be accessed
 logout

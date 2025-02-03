@@ -1,5 +1,0 @@
-login
-admin
-deposit
-fakeaccount
-logout

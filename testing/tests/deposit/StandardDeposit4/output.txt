@@ -2,5 +2,11 @@ select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-error: account has been closed
+account disabled
+logged out
+select desired session type (admin, standard)
+enter account name
+login successful
+enter account number
+error: account has been disabled
 logged out

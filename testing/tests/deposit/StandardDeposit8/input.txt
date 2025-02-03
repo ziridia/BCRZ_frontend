@@ -1,6 +1,0 @@
-login
-standard
-deposit
-John Doe
-00003
-logout

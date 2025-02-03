@@ -1,6 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-enter account number
-error: account requires admin access
-logged out

@@ -4,6 +4,6 @@ deposit
 John Doe
 00001
 100
-widthdrawl
-100
+withdrawal
+350
 logout

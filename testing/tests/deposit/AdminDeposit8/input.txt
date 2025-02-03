@@ -1,7 +1,5 @@
 login
 admin
 deposit
-John Doe
-00003
-100
+fakeaccount
 logout

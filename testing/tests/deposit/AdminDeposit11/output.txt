@@ -1,4 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-error: account does not exist

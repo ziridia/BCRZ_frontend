@@ -1,7 +1,7 @@
 select desired session type (admin, standard)
-login successful
 enter account name
+login successful
 enter account number
 enter amount to deposit
-error: unauthorized deposit
+error: must deposit a positive amount
 logged out

@@ -1,6 +1,12 @@
 login
-standard
-deposit
+admin
+disable
 John Doe
-00255
+00001
+logout
+login
+standard
+John Doe
+deposit
+00001
 logout

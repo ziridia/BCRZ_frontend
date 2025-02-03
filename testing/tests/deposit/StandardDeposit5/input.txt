@@ -1,9 +1,9 @@
 login
 standard
-deposit
 John Doe
+deposit
 00001
 100
-widthdrawl
-100
+withdrawal
+350
 logout

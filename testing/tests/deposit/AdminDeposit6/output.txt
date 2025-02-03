@@ -3,5 +3,5 @@ login successful
 enter account name
 enter account number
 enter amount to deposit
-error: unauthorized deposit
+error: must deposit a positive amount
 logged out

@@ -1,6 +1,9 @@
 login
 admin
+disable
+John Doe
+00001
 deposit
 John Doe
-00255
+00001
 logout

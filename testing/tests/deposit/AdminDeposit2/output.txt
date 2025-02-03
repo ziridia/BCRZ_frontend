@@ -3,4 +3,5 @@ login successful
 enter account name
 enter account number
 error: invalid account number
+error: uknown command
 logged out

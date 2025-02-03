@@ -3,5 +3,5 @@ login successful
 enter account name
 enter account number
 enter amount to deposit
-error: daily deposit limit reached
+successful deposit
 logged out
