@@ -1,0 +1,7 @@
+login
+admin
+paybill
+John Doe
+00001
+EZ
+logout

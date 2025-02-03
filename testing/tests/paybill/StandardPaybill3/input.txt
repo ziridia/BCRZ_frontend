@@ -1,0 +1,8 @@
+login
+standard
+paybill
+John Doe
+00002
+EC
+100
+logout

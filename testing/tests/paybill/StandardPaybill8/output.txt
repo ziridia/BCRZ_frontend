@@ -1,0 +1,6 @@
+select desired session type (admin, standard)
+login successful
+enter account name
+enter account number
+error: unauthorized access, requires admin access
+logged out
