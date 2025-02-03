@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-special characters not allowed in name
+error: special characters not allowed in name
 logged out

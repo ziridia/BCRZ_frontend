@@ -1,7 +1,10 @@
 select desired session type (admin, standard)
 login successful
 enter account name
+enter account number
 Enter initial balance for the account
 Account Created with initial balance of $500.00
-transaction not allowed after account has just been created.
+error: transaction not allowed after account has just been created.
+error: unknown command
+error: unknown command
 logged out

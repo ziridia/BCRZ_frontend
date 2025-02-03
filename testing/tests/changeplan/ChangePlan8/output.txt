@@ -2,5 +2,5 @@ select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-Error, account payment plan already changed from student to non-student.
+error: account payment plan already changed from student to non-student.
 logged out

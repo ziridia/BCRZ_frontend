@@ -1,4 +1,5 @@
 select desired session type (admin, standard)
+enter account name
 login successful
-Error, privlidged access to admin only
+error: insufficient permission
 logged out

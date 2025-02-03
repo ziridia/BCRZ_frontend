@@ -1,6 +1,7 @@
 select desired session type (admin, standard)
 login successful
 enter account name
+enter account number
 Enter initial balance for the account
 Account Created with initial balance of $500.00
 logged out

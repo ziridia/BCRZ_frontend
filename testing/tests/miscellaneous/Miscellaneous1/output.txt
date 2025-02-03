@@ -1,6 +1,7 @@
+error: unknown command
 select desired session type (admin, standard)
-login successful
 enter account name
-error: Special Characters not allowed in name
+login successful
+error: unknown command
 error: unknown command
 logged out

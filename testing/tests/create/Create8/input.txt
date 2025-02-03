@@ -2,8 +2,9 @@ login
 admin
 create
 Forest Gump
+00001
 500.00
-withdrawl
+withdrawal
 enter account name
 enter account number
 logout

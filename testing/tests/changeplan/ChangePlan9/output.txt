@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-No input provided, try again
+error: no input provided
 logged out

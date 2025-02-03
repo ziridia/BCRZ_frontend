@@ -2,5 +2,5 @@ select desired session type (admin, standard)
 login successful
 enter account name
 Enter initial balance for the account
-Surpassed max limit of initial balance
+error: Surpassed max limit of initial balance
 logged out

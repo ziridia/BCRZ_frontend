@@ -1,6 +1,7 @@
 select desired session type (admin, standard)
 login successful
 enter account name
+enter account number
 Enter initial balance for the account
-Account can not be a negative amount, try again. 
+error: Account can not be a negative amount
 logged out

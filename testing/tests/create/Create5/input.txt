@@ -1,4 +1,5 @@
 login
-user
+standard
+John Doe
 create
 logout
