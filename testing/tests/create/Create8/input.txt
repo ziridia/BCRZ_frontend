@@ -1,0 +1,9 @@
+login
+admin
+create
+Forest Gump
+500.00
+withdrawl
+enter account name
+enter account number
+logout

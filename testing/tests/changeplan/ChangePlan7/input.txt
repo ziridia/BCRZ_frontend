@@ -1,0 +1,6 @@
+login
+admin
+changeplan
+John Doe
+00011
+logout

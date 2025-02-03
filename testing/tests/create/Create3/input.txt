@@ -1,0 +1,6 @@
+login
+admin
+create
+Christopher Johnson
+500.00
+logout

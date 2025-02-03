@@ -1,0 +1,4 @@
+select desired session type (admin, standard)
+login successful
+error, standard user not allowed to changeplan. 
+logged out

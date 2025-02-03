@@ -1,0 +1,6 @@
+select desired session type (admin, standard)
+login successful
+enter account name
+Enter initial balance for the account
+Initial balance can not be $0.00, try again. 
+logged out

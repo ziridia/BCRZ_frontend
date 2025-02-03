@@ -1,0 +1,4 @@
+select desired session type (admin, standard)
+login successful
+Error, privlidged access to admin only
+logged out

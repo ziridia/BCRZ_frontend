@@ -1,0 +1,5 @@
+select desired session type (admin, standard)
+login successful
+enter account name
+the name exceeds the max limit, try again
+logged out

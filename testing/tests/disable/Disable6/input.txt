@@ -1,0 +1,9 @@
+login
+admin
+disable
+John Doe
+00001
+disable
+John Doe
+0001
+logout

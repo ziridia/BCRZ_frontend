@@ -1,0 +1,6 @@
+select desired session type (admin, standard)
+login successful
+enter account name
+enter account number
+Account number does not match with account name.
+logged out
