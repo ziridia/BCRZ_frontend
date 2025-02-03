@@ -1,6 +1,0 @@
-logout
-login
-standard
-John Doe
-logout
-logout
