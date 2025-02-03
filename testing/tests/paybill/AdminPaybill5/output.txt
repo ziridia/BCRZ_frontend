@@ -1,8 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-enter account number
-enter company which the bill will be paid to (EC, CQ, FI)
-enter amount to pay
-error: Maximum payment authorized exceeded (<=2,000)
-logged out

@@ -2,7 +2,9 @@ login
 standard
 paybill
 John Doe
-00002
+00001
 EC
-100
+1000
+EC
+1500
 logout

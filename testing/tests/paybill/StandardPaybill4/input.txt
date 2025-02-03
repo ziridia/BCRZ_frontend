@@ -2,6 +2,5 @@ login
 standard
 paybill
 John Doe
-00001
-EZ
+00255
 logout

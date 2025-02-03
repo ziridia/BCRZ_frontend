@@ -1,5 +1,0 @@
-login
-admin
-paybill
-fakeaccount
-logout

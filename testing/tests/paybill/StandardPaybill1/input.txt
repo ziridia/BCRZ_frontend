@@ -4,5 +4,5 @@ paybill
 John Doe
 00001
 EC
-100
+500
 logout

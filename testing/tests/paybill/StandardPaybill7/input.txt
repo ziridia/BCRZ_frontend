@@ -1,6 +1,0 @@
-login
-standard
-paybill
-John Doe
-00255
-logout

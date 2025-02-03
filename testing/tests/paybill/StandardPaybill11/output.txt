@@ -1,8 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-enter account number
-enter company which the bill will be paid to (EC, CQ, FI)
-enter amount to pay
-payment is successful
-logged out

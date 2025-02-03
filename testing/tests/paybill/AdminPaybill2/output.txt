@@ -4,5 +4,5 @@ enter account name
 enter account number
 enter company which the bill will be paid to (EC, CQ, FI)
 enter amount to pay
-error: overpayment
+bill paid
 logged out

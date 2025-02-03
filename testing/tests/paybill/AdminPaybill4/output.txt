@@ -1,7 +1,0 @@
-select desired session type (admin, standard)
-login successful
-enter account name
-enter account number
-enter company which the bill will be paid to (EC, CQ, FI)
-error: invalid payee credential 
-logged out

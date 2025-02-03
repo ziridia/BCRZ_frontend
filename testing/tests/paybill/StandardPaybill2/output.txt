@@ -4,5 +4,5 @@ enter account name
 enter account number
 enter company which the bill will be paid to (EC, CQ, FI)
 enter amount to pay
-error: overpayment
+error: Maximum payment authorized exceeded (<=2,000)
 logged out
