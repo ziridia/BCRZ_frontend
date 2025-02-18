@@ -75,7 +75,8 @@ class interface:
                 interface.transaction_manager = None
 
             return return_value
-        except:
+        except Exception as e:
+            print(f"debug: Exception occurred = {e}")
             return "error: unable to parse transaction"
         
         
