@@ -7,7 +7,7 @@ class TransactionManager(ABC):
     
     # take the next input for the transaction and parse it accordingly
     @abstractmethod
-    def next(self, input):
+    def next(self, user_input):
         pass
 
     # return true if the transaction is complete; false otherwise

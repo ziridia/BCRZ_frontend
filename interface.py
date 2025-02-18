@@ -1,5 +1,15 @@
-from transaction_manager import TransactionManager
-from transaction_managers.login_manager import LoginManager
+from transaction_manager                        import TransactionManager
+from transaction_managers.login_manager         import LoginManager
+from transaction_managers.withdrawal_manager    import WithdrawalManager
+from transaction_managers.transfer_manager      import TransferManager
+from transaction_managers.paybill_manager       import PaybillManager
+from transaction_managers.deposit_manager       import DepositManager
+from transaction_managers.create_manager        import CreateManager
+from transaction_managers.delete_manager        import DeleteManager
+from transaction_managers.disable_manager       import DisableManager
+from transaction_managers.changeplan_manager    import ChangeplanManager
+# from transaction_managers.logout_manager        import LogoutManager
+
 from user import User
 # import transaction_manager.LoginManager
 
@@ -9,7 +19,15 @@ class interface:
     # all transactions should be in lowercase with no padding
 
     transactions_functions: dict = {
-        'login' : LoginManager,
+        'login'     : LoginManager,
+        'withdrawal': WithdrawalManager,
+        'transfer'  : TransferManager,
+        'paybill'   : PaybillManager,
+        'deposit'   : DepositManager,
+        'create'    : CreateManager,
+        'delete'    : DeleteManager,
+        'disable'   : DisableManager,
+        'changeplan': ChangeplanManager
     }
     
     transaction_manager = None
