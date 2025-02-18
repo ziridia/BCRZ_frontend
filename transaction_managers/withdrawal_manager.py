@@ -1,6 +1,7 @@
 
 
 from transaction_manager import TransactionManager
+from transaction_logger import TransactionLogger
 
 class states:
     beforeWithdrawal = 0 # user just typed "withdrawal", display appropriate message
@@ -18,6 +19,19 @@ class WithdrawalManager(TransactionManager):
         if self.state == states.beforeWithdrawal:
 
             self.state = states.transactionExit
+
+            try:
+
+                TransactionLogger.writeTransaction(
+                    TransactionLogger.codes.withdrawal,
+                    "John Doe",
+                    0,
+                    500
+                )
+
+            except Exception as e:
+                print(e)
+
             return "withdrawal message"
         
         return "error: state machine is not exiting properly"
