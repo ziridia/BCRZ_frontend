@@ -1,10 +1,10 @@
 
 
-from transaction_manager import transactionManager
+from transaction_manager import TransactionManager
 
 class LoginManager(TransactionManager):
 
-    int state = 0
+    state:int = 0
 
     user = None
 

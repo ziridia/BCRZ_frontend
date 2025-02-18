@@ -1,4 +1,6 @@
 
 
-class user:
-    pass
+class User:
+    
+    def __init__(self):
+        self.name = "username"

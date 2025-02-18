@@ -1,14 +1,20 @@
-
+from transaction_manager import TransactionManager
+from transaction_managers.login_manager import LoginManager
+from user import User
+# import transaction_manager.LoginManager
 
 class interface:
 
     # this should be a transaction name -> transaction manager
     # all transactions should be in lowercase with no padding
+
     transactions_functions: dict = {
         'login' : LoginManager,
     }
-
+    
     transaction_manager = None
+
+    user = None
 
     def parseInput(input:str):
         """
@@ -33,22 +39,22 @@ class interface:
             # create a transaction manager, and should instead just return an error message
         # if its not null, pass all formatted input into the transaction manager. Let it handle errors
 
-        if transaction_manager = None:
-
-            if formatted_input not in transaction_manager:
+        if interface.transaction_manager == None:
+            
+            if formatted_input not in interface.transactions_functions:
                 # the user gave invalid input for its current step
                 return "error: unknown command"
 
             # create transaction manager based on the input
-            transaction_manager = transaction_functions[formatted_input]()
+            interface.transaction_manager = interface.transactions_functions[formatted_input](interface.user)
         
         # transaction manager is not null, so pass the input directly off to it
         try:
-            return_value = transaction_manager.next(formatted_input)
+            return_value = interface.transaction_manager.next(formatted_input)
 
             # check if the transaction is complete, and if so, set the transaction manager to None
-            if transaction_manager.isComplete():
-                transaction_manager = None
+            if interface.transaction_manager.isComplete():
+                interface.transaction_manager = None
 
             return return_value
         except:

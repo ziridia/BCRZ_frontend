@@ -1,5 +1,5 @@
 
-from "interface.py" import interface
+from interface import interface
 
 
 def main():
