@@ -32,7 +32,7 @@ class interface:
     
     transaction_manager = None
 
-    user = None
+    user = User()
 
     def parseInput(input:str):
         """

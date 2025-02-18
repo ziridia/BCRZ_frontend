@@ -26,11 +26,13 @@ class LoginManager(TransactionManager):
         elif self.state == states.awaitSessionType:
             
             if user_input == "standard":
+                self.user.setRole("standard")
                 self.state = states.awaitAccountName
 
                 return "enter account name"
 
             if user_input == "admin":
+                self.user.setRole("admin")
                 self.state = states.transactionExit
 
                 return "logged in"
@@ -41,7 +43,7 @@ class LoginManager(TransactionManager):
             return "error: error message"
 
         elif self.state == states.awaitAccountName:
-            
+            # Currently there are no existing user accounts being pulled from a file, so defaults to user not being found
             self.state = states.transactionExit
             # see if the input matches any user accounts
             # if so, update the user, return success message
