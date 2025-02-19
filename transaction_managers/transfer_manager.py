@@ -34,6 +34,7 @@ class TransferManager(TransactionManager):
             
             elif self.state == states.awaitAccountName:
                 self.state = states.awaitAccountNumber
+                self.account_name = user_input
                 return "Enter account number: "
             
             elif self.state == states.awaitAccountNumber:
@@ -41,10 +42,10 @@ class TransferManager(TransactionManager):
 
                 # Next Part of the Transfer.
                 self.account_number = user_input
-                self.state = states.awaitReciever
+                self.state = states.awaitSecondAccountNumber
                 return "Enter reciever of transfer account number: "
 
-            elif self.state == states.awaitReciever:
+            elif self.state == states.awaitSecondAccountNumber:
                 # Verify if Reciever Account is a vaild code.
                 
                 # Next part of the Transfer.

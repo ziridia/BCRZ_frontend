@@ -37,6 +37,7 @@ class PaybillManager(TransactionManager):
         
         elif self.state == states.awaitAccountName:
             self.state = states.awaitAccountNumber
+            self.account_name = user_input
             return "Enter account number: "
         
         elif self.state == states.awaitAccountNumber:
