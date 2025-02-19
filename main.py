@@ -8,7 +8,7 @@ def main():
     print any output given by the interface class
     """
     print("Welcome to Banking System\n\nWhat would you like to do today?")
-    print("Options: login, withdrawl, transfer, paybill, deopsit, create, delete, disable, changeplan")
+    print("Options: login, withdrawal, transfer, paybill, deopsit, create, delete, disable, changeplan")
     output:str = ""
     while output != "exit":
         inputText = input()
