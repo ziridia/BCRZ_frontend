@@ -1,11 +1,12 @@
+
+
+
+
 class User:
-    def __init__(self, name="username", role=""):
-        self.name = "username"
+    def __init__(self, name, role, accounts=[]):
+        self.name = name
         self.role = role
+        self.accounts = accounts
     
-    # Check if the current user is of type admin
     def isAdmin(self): 
-        return self.role == ""
-        
-    def setRole(self, role):
-        self.role = role.lower()
+        return self.role == "admin"
