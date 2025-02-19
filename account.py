@@ -1,5 +1,5 @@
 
-class account:
+class Account:
     """
     Each account has a(n):
         account number
@@ -37,5 +37,8 @@ class account:
 
         self.balance += amount
     
-    def disable():
+    def disable(self):
         self.isDisabled = False
+
+    def __str__(self):
+        return f"{self.account_number} {self.balance} Stu={self.isStudentPlan} Dis={self.isDisabled} Del={self.isDeleted}"

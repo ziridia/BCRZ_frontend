@@ -1,6 +1,6 @@
 
 from interface import interface
-
+from read_in_accounts import readInAccounts
 
 def main():
     """
@@ -9,6 +9,12 @@ def main():
     """
     print("Welcome to Banking System\n\nWhat would you like to do today?")
     print("Options: login, withdrawal, transfer, paybill, deopsit, create, delete, disable, changeplan")
+    
+    users = readInAccounts("CurrentBankAccounts")
+
+    # for k,v in users.items():
+    #     print(k, v)
+    
     output:str = ""
     while output != "exit":
         inputText = input()
