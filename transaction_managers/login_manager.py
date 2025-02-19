@@ -1,6 +1,10 @@
 
+from read_in_accounts import readInAccounts
 
 from transaction_manager import TransactionManager
+
+from user import User
+
 
 class states:
     beforeLogin = 0 # prompt user to enter session type
@@ -10,6 +14,8 @@ class states:
 
 
 class LoginManager(TransactionManager):
+
+    users = readInAccounts("CurrentBankAccounts")
 
     def __init__(self, user):
         self.user = user    
@@ -26,13 +32,14 @@ class LoginManager(TransactionManager):
         elif self.state == states.awaitSessionType:
             
             if user_input == "standard":
-                self.user.setRole("standard")
+                # self.user.setRole("standard")
                 self.state = states.awaitAccountName
 
                 return "enter account name"
 
             if user_input == "admin":
-                self.user.setRole("admin")
+                # self.user.setRole("admin")
+                self.user = User("admin", list(), role="admin")
                 self.state = states.transactionExit
 
                 return "logged in"
@@ -43,13 +50,18 @@ class LoginManager(TransactionManager):
             return "error: error message"
 
         elif self.state == states.awaitAccountName:
-            # Currently there are no existing user accounts being pulled from a file, so defaults to user not being found
-            self.state = states.transactionExit
+
+            # if user doesn't exist return error message
+            if user_input not in LoginManager.users:
+                self.state = states.transactionExit
+                return "error: user not found"
+
             # see if the input matches any user accounts
             # if so, update the user, return success message
+            self.state = states.transactionExit
+            self.user = LoginManager.users[user_input]
+            return "logged in"
 
-            # if not, return error message
-            return "error: user not found" # double check what the error message in the tests is and make this match
 
         # this should never be reached. Means that this function was called despite the transaction
         # being marked as complete

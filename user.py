@@ -19,7 +19,6 @@ class User:
                 raise Exception("Cannot have two accounts with the same number belonging to the same user")
 
         self.accounts.append(account)
-        print(self.name, self.accounts)
 
     def __str__(self):
         return f"User: {self.name} role:{self.role}, accounts:{self.accounts}"

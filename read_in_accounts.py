@@ -17,7 +17,7 @@ def createAccountFromString(account_string:str):
         int(account_number),
         int(account_balance),
         isDisabled=account_status == "D",
-    ), account_name
+    ), account_name.lower()
 
 def readInAccounts(path:str):
     """
@@ -50,13 +50,6 @@ def readInAccounts(path:str):
             users[user_name] = User(user_name, accounts=list())
 
         # add the account for the current user to its account list
-        # print("adding user:", user_name)
-        # for v in users.values(): print(v)
-        # users[user_name].accounts.append(account)
         users[user_name].addAccount(account)
-        # for v in users.values(): print(v)
-        # print(users[user_name].accounts)
-        # print("\n\n\n")
-        print()
 
     return users

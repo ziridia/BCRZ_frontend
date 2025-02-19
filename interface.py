@@ -8,12 +8,13 @@ from transaction_managers.create_manager        import CreateManager
 from transaction_managers.delete_manager        import DeleteManager
 from transaction_managers.disable_manager       import DisableManager
 from transaction_managers.changeplan_manager    import ChangeplanManager
-# from transaction_managers.logout_manager        import LogoutManager
+from transaction_managers.logout_manager        import LogoutManager
 
 from user import User
-# import transaction_manager.LoginManager
 
-class interface:
+
+
+class Interface:
 
     # this should be a transaction name -> transaction manager
     # all transactions should be in lowercase with no padding
@@ -27,12 +28,14 @@ class interface:
         'create'    : CreateManager,
         'delete'    : DeleteManager,
         'disable'   : DisableManager,
-        'changeplan': ChangeplanManager
+        'changeplan': ChangeplanManager,
+        'logout'    : LogoutManager,
     }
     
     transaction_manager = None
 
     user = None
+
 
     def parseInput(input:str):
         """
@@ -57,22 +60,24 @@ class interface:
             # create a transaction manager, and should instead just return an error message
         # if its not null, pass all formatted input into the transaction manager. Let it handle errors
 
-        if interface.transaction_manager == None:
+        if Interface.transaction_manager == None:
             
-            if formatted_input not in interface.transactions_functions:
+            if formatted_input not in Interface.transactions_functions:
                 # the user gave invalid input for its current step
                 return "error: unknown command"
 
             # create transaction manager based on the input
-            interface.transaction_manager = interface.transactions_functions[formatted_input](interface.user)
+            Interface.transaction_manager = Interface.transactions_functions[formatted_input](Interface.user)
         
         # transaction manager is not null, so pass the input directly off to it
         try:
-            return_value = interface.transaction_manager.next(formatted_input)
+            return_value = Interface.transaction_manager.next(formatted_input)
 
             # check if the transaction is complete, and if so, set the transaction manager to None
-            if interface.transaction_manager.isComplete():
-                interface.transaction_manager = None
+            if Interface.transaction_manager.isComplete():
+                Interface.user = Interface.transaction_manager.getUser()
+                Interface.transaction_manager = None
+                
 
             return return_value
         except Exception as e:

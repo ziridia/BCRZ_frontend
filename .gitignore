@@ -4,3 +4,4 @@
 *.synctex.gz
 dailyTransactionLog.txt
 *.pyc
+__pycache__
