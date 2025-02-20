@@ -2,6 +2,10 @@
 from user import User
 from account import Account
 
+
+
+
+
 def createAccountFromString(account_string:str):
 
     if len(account_string) != 37:
@@ -53,3 +57,18 @@ def readInAccounts(path:str):
         users[user_name].addAccount(account)
 
     return users
+
+
+USERS = readInAccounts("CurrentBankAccounts")
+
+def getUser(user_name:str):
+    """
+    checks current bank accounts, and returns username, user object
+    or "", None depending on whether the user exists
+    """
+
+    if user_name in USERS:
+        return user_name, USERS[user_name]
+    
+    return "", None
+    

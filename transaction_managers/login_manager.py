@@ -1,5 +1,6 @@
 
 from helpers.read_in_accounts import readInAccounts
+from helpers.read_in_accounts import USERS
 
 from transaction_manager import TransactionManager
 
@@ -14,8 +15,6 @@ class states:
 
 
 class LoginManager(TransactionManager):
-
-    users = readInAccounts("CurrentBankAccounts")
 
     def __init__(self, user):
         self.user = user    
@@ -52,14 +51,14 @@ class LoginManager(TransactionManager):
         elif self.state == states.awaitAccountName:
 
             # if user doesn't exist return error message
-            if user_input not in LoginManager.users:
+            if user_input not in USERS:
                 self.state = states.transactionExit
                 return "error: user not found"
 
             # see if the input matches any user accounts
             # if so, update the user, return success message
             self.state = states.transactionExit
-            self.user = LoginManager.users[user_input]
+            self.user = USERS[user_input]
             return "logged in"
 
 

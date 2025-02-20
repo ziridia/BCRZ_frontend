@@ -12,7 +12,7 @@ from transaction_managers.logout_manager        import LogoutManager
 
 from user import User
 
-
+from helpers.debug_tools import debugPrint
 
 class Interface:
 
@@ -54,7 +54,6 @@ class Interface:
         """
         formatted_input = input.lower().strip()
         
-
         # if the transaction manager is null:
             # create a transaction manager depending on the input. Invalid input should not
             # create a transaction manager, and should instead just return an error message
@@ -76,13 +75,13 @@ class Interface:
             # check if the transaction is complete, and if so, set the transaction manager to None
             if Interface.transaction_manager.isComplete():
                 Interface.user = Interface.transaction_manager.getUser()
-                print("user balance after transaction is", Interface.user.accounts[0].balance)
+                # print("user balance after transaction is", Interface.user.accounts[0].balance)
                 Interface.transaction_manager = None
                 
 
             return return_value
         except Exception as e:
-            print(f"debug: Exception occurred = {e}")
+            debugPrint(e)
             return "error: unable to parse transaction"
         
         

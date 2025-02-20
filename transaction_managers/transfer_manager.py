@@ -2,13 +2,23 @@
 
 from transaction_manager import TransactionManager
 
+from helpers.program_messages import ErrorMessages, SuccessMessages
+from helpers.read_in_accounts import USERS, getUser
+from helpers.money_parser import MoneyParser
+from helpers.transaction_logger import TransactionLogger
+from helpers.constants import TRANSFER_CAP, TRANSFER_IN_MSG, TRANSFER_OUT_MSG
+
+from account import Account
+
+
 class states:
-    beforeTransfer = 0 # user just typed "withdrawal", display appropriate message
+    beforeTransfer = 0 # transfer, ask for name(admin) or number
+    awaitAccountName = 1 # parse name given (admin), ask for number
+    awaitAccountNumber = 2 # parse account number, ask for 2nd name
+    awaitSecondAccountName = 3 # parse name, ask for 2nd number
+    awaitSecondAccountNumber = 4 # parse number, ask for transfer amount
+    awaitAmount = 5 # parse amount, return success or fail 
     transactionExit = -1 # flag transaction as finished (error or successful completion)
-    awaitAccountName = 1
-    awaitAccountNumber = 2
-    awaitSecondAccountNumber = 3
-    awaitAmount = 4
 
 
 class TransferManager(TransactionManager):
@@ -16,66 +26,171 @@ class TransferManager(TransactionManager):
     def __init__(self, user):
         self.user = user    
         self.state:int = states.beforeTransfer
-        self.account_name = None
-        self.account_number = None
-        self.second_account_number = None
-        self.amount = None
-        # For testing account balance
-        self.accountBalance = 800
-        # Logging transfers so they can be printed.
-        self.transfers = []
+        self.transfer_out_user = self.user
+        self.transfer_out_account = None
+        self.transfer_in_user = None
+        self.transfer_in_account = None
 
     def next(self, user_input):
-
-
-            if self.state == states.beforeTransfer:
-                self.state = states.awaitAccountName
-                return "Enter account name: "
-            
-            elif self.state == states.awaitAccountName:
-                self.state = states.awaitAccountNumber
-                self.account_name = user_input
-                return "Enter account number: "
-            
-            elif self.state == states.awaitAccountNumber:
-                # Verify if account exists
-
-                # Next Part of the Transfer.
-                self.account_number = user_input
-                self.state = states.awaitSecondAccountNumber
-                return "Enter reciever of transfer account number: "
-
-            elif self.state == states.awaitSecondAccountNumber:
-                # Verify if Reciever Account is a vaild code.
-                
-                # Next part of the Transfer.
-                self.second_account_number = user_input.strip().upper()
-                self.state = states.awaitAmount
-                return "Enter amount for bill payment: "
-            
-            elif self.state == states.awaitAmount:
-                # Check if amount is valid and proceed with the Transfer.
-                try:
-                    self.amount = float(user_input)
-
-                    if self.amount < 0 or self.amount > 1000:
-                        return f"Error: Invalid amount. Must be between 0 and 1000. Inputed: {self.amount}"
-                    
-                    # Example for exceeding account balance:
-                    if self.amount > self.accountBalance:
-                        return f"Error: Invalid amount. Exceeds account balance. Inputed: {self.amount}"
-                    
-                    # Recording Transfer for logs
-                    #transfer = f"02_{self.account_name}_{self.account_number}_{self.amount}_{self.second_account_number}"
-                    #self.transfer.append(transfer)
-
-                    self.state = states.transactionExit
-                    return f"Transfer of {self.amount} to {self.second_account_number} completed."
-
-                except ValueError:
-                    return f"Error: Invalid input. Please enter a numeric value and not {self.amount}"
+        """
         
-            return "error: state machine is not exiting properly"
+        transfer
+        (ADMIN) > enter name to transfer from
+        > enter account number to transfer from
+        > enter name to transfer to
+        > enter account number to transfer to
+        > enter amount to transfer
+        ||exit||
+        """
+
+        if self.state == states.beforeTransfer:
+
+            if self.user.isAdmin():
+
+                self.state = states.awaitAccountName
+                return SuccessMessages.enter_account_name
+
+            self.transfer_out_user = self.user
+            self.state = states.awaitAccountNumber
+            return SuccessMessages.enter_account_number
+            
+        
+        elif self.state == states.awaitAccountName:
+            # this is admin only
+
+            user_name, user = getUser(user_input)
+
+            # check that the user exists
+            if user_name == "" or user == None:
+                self.state = states.transactionExit
+                return ErrorMessages.user_not_found
+            
+            # user exists, update transfer out user and ask for account number
+            self.transfer_out_user = user
+
+            self.state = states.awaitAccountNumber
+            return SuccessMessages.enter_account_number
+        
+        elif self.state == states.awaitAccountNumber:
+
+            # validate account number
+            if not Account.validateAccountNumber(user_input):
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_account_number
+            
+            # Verify if account exists
+            self.transfer_out_account = self.transfer_out_user.getAccount(int(user_input))
+            if self.transfer_out_account == None:
+                self.state = states.transactionExit
+                return ErrorMessages.account_not_found
+
+            # ask for account name of receiving account
+            self.state = states.awaitSecondAccountName
+            return SuccessMessages.enter_transfer_to_account_name
+
+        if self.state == states.awaitSecondAccountName:
+
+            # check if user exists
+            user_name, user = getUser(user_input)
+
+            # check that the user exists
+            if user_name == "" or user == None:
+                self.state = states.transactionExit
+                return ErrorMessages.user_not_found
+
+            # set transfer to user, ask for account number
+            self.transfer_in_user = user
+            self.state = states.awaitSecondAccountNumber
+            return SuccessMessages.enter_account_number
+
+        if self.state == states.awaitSecondAccountNumber:
+
+            # Verify if Reciever Account is a vaild code.
+            if not Account.validateAccountNumber(user_input):
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_account_number
+
+            # confirm account exists
+            self.transfer_in_account = self.transfer_in_user.getAccount(int(user_input))
+            if self.transfer_in_account == None:
+                self.state = states.transactionExit
+                return ErrorMessages.account_not_found
+
+            # Next part of the Transfer.
+            self.state = states.awaitAmount
+            return SuccessMessages.enter_amount
+        
+        if self.state == states.awaitAmount:
+            
+            # convert amount to be correct format
+            amount:int = 0
+            try:
+
+                amount = MoneyParser.stringToInt(user_input)
+
+            except Exception as e:
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_amount
+    
+            # validate user can transfer the amount given
+            if amount <= 0:
+                self.state = states.transactionExit
+                return ErrorMessages.amount_must_be_positive
+
+            if self.transfer_out_user.amount_transferred + amount > TRANSFER_CAP:
+                self.state = states.transactionExit
+                return ErrorMessages.daily_transfer_cap
+            
+            if amount > self.transfer_out_account.balance:
+                self.state = states.transactionExit
+                return ErrorMessages.insufficient_funds
+            # update account balances
+            try:
+                self.transfer_out_account.updateBalance(-amount)
+            except:
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_amount
+            try:
+                self.transfer_in_account.updateBalance(amount)
+            except Exception as e:
+                # revert
+                self.transfer_out_account.updateBalance(amount)
+
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_amount
+            # update daily transfer amount if not admin
+            if not self.user.isAdmin():
+                self.transfer_out_user.amount_transferred += amount
+
+            # log transfer
+            try:
+                TransactionLogger.writeTransaction(
+                    TransactionLogger.codes.transfer,
+                    self.transfer_out_user.name,
+                    self.transfer_out_account.account_number,
+                    amount,
+                    misc=TRANSFER_OUT_MSG
+                )
+                TransactionLogger.writeTransaction(
+                    TransactionLogger.codes.transfer,
+                    self.transfer_in_user.name,
+                    self.transfer_in_account.account_number,
+                    amount,
+                    misc=TRANSFER_IN_MSG
+                )
+            except:
+                # revert balance changes
+                self.transfer_out_account.updateBalance(amount)
+                self.transfer_in_account.updateBalance(-amount)
+
+                # exit with error message because it wasn't logged
+                self.state = states.transactionExit
+                return ErrorMessages.failed_to_log_transaction
+
+            self.state = states.transactionExit
+            return SuccessMessages.transaction_success
+
+        return ErrorMessages.state_machine_failure
 
 
     def isComplete(self):

@@ -1,4 +1,6 @@
 
+from helpers.constants import ACCOUNT_NUMBER_LENGTH
+
 class Account:
     """
     Each account has a(n):
@@ -31,7 +33,7 @@ class Account:
         if self.isDeleted:
             raise Exception("cannot perform transactions on deleted accounts")
 
-        if self.balance - amount < 0:
+        if self.balance + amount < 0:
             raise ValueError("amount to remove cannot be greater than the balance")
 
         if self.balance + amount > 999_999_99:
@@ -44,3 +46,18 @@ class Account:
 
     def __str__(self):
         return f"{self.account_number} {self.balance} Stu={self.isStudentPlan} Dis={self.isDisabled} Del={self.isDeleted}"
+
+    def validateAccountNumber(account_number:str):
+        """
+        returns TRUE if the account number is valid. False otherwise.
+        Does not check if the account exists
+        """
+        try:
+            int(account_number)
+        except:
+            return False
+        
+        if len(account_number) != ACCOUNT_NUMBER_LENGTH:
+            return False
+        
+        return True

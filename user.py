@@ -24,3 +24,15 @@ class User:
 
     def __str__(self):
         return f"User: {self.name} role:{self.role}, accounts:{self.accounts}"
+
+    def getAccount(self, account_number:int):
+        """
+        Returns reference to the account with account_number if it exists
+
+        returns None otherwise
+        """
+        for account in self.accounts:
+            if account.account_number == account_number:
+                return account
+
+        return None

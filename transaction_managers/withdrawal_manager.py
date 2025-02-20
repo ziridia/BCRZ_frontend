@@ -4,12 +4,13 @@ from transaction_manager import TransactionManager
 from helpers.transaction_logger import TransactionLogger
 from transaction_managers.login_manager import LoginManager
 
-from helpers.program_messages import ErrorMessages
-from helpers.program_messages import SuccessMessages
+from helpers.program_messages import ErrorMessages, SuccessMessages
 
 from helpers.money_parser import MoneyParser
 
 from helpers.constants import ACCOUNT_NUMBER_LENGTH, WITHDRAWAL_CAP
+
+from helpers.read_in_accounts import USERS
 
 class states:
     beforeWithdrawal = 0 # user just typed "withdrawal", ask for account name (admin) or number (standard)
@@ -45,7 +46,7 @@ class WithdrawalManager(TransactionManager):
         if self.state == states.getAccountNameAsAdmin:
 
             # find user account from users list
-            for name,user in LoginManager.users.items():
+            for name,user in USERS.items():
                 if name == user_input:
                     self.withdrawal_user = user
                     self.state = states.getAccountNumber

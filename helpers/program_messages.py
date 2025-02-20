@@ -29,6 +29,8 @@ class ErrorMessages:
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 
+    # transfer specific
+    daily_transfer_cap:str = "error: cannot exceed daily transfer cap of $1000.00"
 
 
 class SuccessMessages:
@@ -38,6 +40,12 @@ class SuccessMessages:
 
     transaction_success:str = "transaction successful"
 
+    enter_amount:str = "enter amount"
+
     # Withdrawal specific. Decision needed on if this should be included here
     enter_amount_to_withdraw:str = "enter amount to withdraw"
     withdrawal_success:str = "withdrawal successful"
+
+    # Transfer specific
+    enter_transfer_to_account_name:str = "enter account name to transfer to"
+    
