@@ -53,3 +53,5 @@ class SuccessMessages:
     # Transfer specific
     enter_transfer_to_account_name:str = "enter account name to transfer to"
     
+    # logout specific
+    logged_out:str = "logged out"

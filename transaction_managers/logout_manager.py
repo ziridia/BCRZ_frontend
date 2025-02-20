@@ -1,6 +1,8 @@
 
-
 from transaction_manager import TransactionManager
+from helpers.program_messages import ErrorMessages, SuccessMessages
+from helpers.debug_tools import debugPrint
+from helpers.transaction_logger import TransactionLogger
 
 class states:
     beforeLogout = 0
@@ -18,10 +20,24 @@ class LogoutManager(TransactionManager):
         if self.user == None:
             self.state = states.transactionExit
             return "error: not logged in"
-                
+
+        try:
+
+            TransactionLogger.writeTransaction(
+                TransactionLogger.codes.logout,
+                self.user.name,
+                0,
+                0,
+            )
+        except Exception as e:
+            debugPrint(e)
+
+            self.state = states.transactionExit
+            return ErrorMessages.failed_to_log_transaction
+
         self.state = states.transactionExit
         self.user = None
-        return "logged out"
+        return SuccessMessages.logged_out
 
 
     def isComplete(self):
