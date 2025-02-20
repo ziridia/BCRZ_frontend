@@ -3,10 +3,12 @@ from account import Account
 
 
 class User:
-    def __init__(self, name, accounts:list, role="standard"):
+    def __init__(self, name, accounts:list, role="standard", amount_withdrawn:int=0, amount_transferred:int=0):
         self.name = name
         self.role = role
         self.accounts = accounts
+        self.amount_withdrawn = amount_withdrawn
+        self.amount_transferred = amount_transferred
     
     def isAdmin(self): 
         return self.role == "admin"

@@ -16,9 +16,11 @@ class Account:
         self.isDisabled = isDisabled
         self.isDeleted = isDeleted
 
-    def updateBalance(amount:int):
+    def updateBalance(self, amount:int):
         """
         Ensures only valid changes to balance occurs. Changes that will cause balance to become negative or exceed $999,999.99 will raise an exception
+
+        Note: This does not and will not prevent updating balances and transfers beyond the daily cap.
 
         Amount can be positive or negative. Floating point values are not valid.
         """
