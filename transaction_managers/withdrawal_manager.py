@@ -9,7 +9,7 @@ from helpers.program_messages import SuccessMessages
 
 from helpers.money_parser import MoneyParser
 
-import helpers.constants
+from helpers.constants import ACCOUNT_NUMBER_LENGTH, WITHDRAWAL_CAP
 
 class states:
     beforeWithdrawal = 0 # user just typed "withdrawal", ask for account name (admin) or number (standard)
@@ -116,7 +116,7 @@ class WithdrawalManager(TransactionManager):
             # attempt to update the balance of the account
             try:
 
-                self.account.updateBalance(amount)
+                self.account.updateBalance(-amount)
 
             except:
                 self.state = states.transactionExit
@@ -139,7 +139,7 @@ class WithdrawalManager(TransactionManager):
             except: 
 
                 try:
-                    self.account.updateBalance(-amount)
+                    self.account.updateBalance(amount)
                 except:
                     self.state = states.transactionExit
                     return ErrorMessages.failed_to_revert_transaction
@@ -151,10 +151,3 @@ class WithdrawalManager(TransactionManager):
             return SuccessMessages.withdrawal_success
         
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

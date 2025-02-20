@@ -36,7 +36,7 @@ class SuccessMessages:
     enter_account_name:str = "enter account name"
     enter_account_number:str = "enter account number"
 
-    transaction_success:Str = "transaction successful"
+    transaction_success:str = "transaction successful"
 
     # Withdrawal specific. Decision needed on if this should be included here
     enter_amount_to_withdraw:str = "enter amount to withdraw"

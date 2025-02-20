@@ -76,6 +76,7 @@ class Interface:
             # check if the transaction is complete, and if so, set the transaction manager to None
             if Interface.transaction_manager.isComplete():
                 Interface.user = Interface.transaction_manager.getUser()
+                print("user balance after transaction is", Interface.user.accounts[0].balance)
                 Interface.transaction_manager = None
                 
 

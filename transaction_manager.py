@@ -11,9 +11,8 @@ class TransactionManager(ABC):
         pass
 
     # return true if the transaction is complete; false otherwise
-    @abstractmethod
     def isComplete(self):
-        pass
+        return self.state == -1
 
     # this should basically just keep track of the active user
     @abstractmethod
@@ -21,6 +20,5 @@ class TransactionManager(ABC):
         pass
 
     # should return a user object
-    @abstractmethod
     def getUser(self):
-        pass
+        return self.user
