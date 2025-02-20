@@ -1,6 +1,6 @@
 
 from interface import Interface
-from read_in_accounts import readInAccounts
+from helpers.read_in_accounts import readInAccounts
 
 """
 This is a CLI banking program, that handles various transactions including withdrawals, deposits, and transfers. 

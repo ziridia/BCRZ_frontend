@@ -1,9 +1,15 @@
 
 
 from transaction_manager import TransactionManager
-from transaction_logger import TransactionLogger
+from helpers.transaction_logger import TransactionLogger
 from transaction_managers.login_manager import LoginManager
 
+from helpers.program_messages import ErrorMessages
+from helpers.program_messages import SuccessMessages
+
+from helpers.money_parser import MoneyParser
+
+import helpers.constants
 
 class states:
     beforeWithdrawal = 0 # user just typed "withdrawal", ask for account name (admin) or number (standard)
@@ -24,17 +30,17 @@ class WithdrawalManager(TransactionManager):
     def next(self, user_input):
 
         if self.user == None:
-            return "error: not logged in"
+            return ErrorMessages.not_logged_in
 
         if self.state == states.beforeWithdrawal:
 
             if self.user.isAdmin():
 
                 self.state = states.getAccountNameAsAdmin
-                return "enter account name"
+                return SuccessMessages.enter_account_name
             
-            self.state = states.getAccountNumber
-            return "enter account number"
+            self.state = states.getAccountNumber            
+            return SuccessMessages.enter_account_number
 
         if self.state == states.getAccountNameAsAdmin:
 
@@ -43,10 +49,10 @@ class WithdrawalManager(TransactionManager):
                 if name == user_input:
                     self.withdrawal_user = user
                     self.state = states.getAccountNumber
-                    return "enter account number"
+                    return SuccessMessages.enter_account_number
             else:
                 self.state = states.transactionExit
-                return "error: user does not exist"
+                return ErrorMessages.user_not_found
 
             
             
@@ -59,12 +65,12 @@ class WithdrawalManager(TransactionManager):
                 int(user_input)
             except:
                 self.state = states.transactionExit
-                return "error: invalid account number"
+                return ErrorMessages.invalid_account_number
             
             # confirm its 5 digits
-            if len(user_input) != 5:
+            if len(user_input) != ACCOUNT_NUMBER_LENGTH:
                 self.state = states.transactionExit
-                return "error: invalid account number"
+                return ErrorMessages.invalid_account_number
             
             # confirm the account exists in the user accounts list
             valid_account:bool = False
@@ -76,46 +82,47 @@ class WithdrawalManager(TransactionManager):
             
             if not valid_account:
                 self.state = states.transactionExit
-                return "error: account does not exist"
+                return ErrorMessages.account_not_found
 
             # account exists for this user, ask for amount to withdraw
             self.state = states.getAmountToWithdraw
-            return "enter amount to withdraw"
+            return SuccessMessages.enter_amount_to_withdraw
 
         if self.state == states.getAmountToWithdraw:
 
             # parse the amount given by the user
             amount:int = 0
             try:
-                # convert to float & multiply by 100 then cast to int so that an input of $100.96 becomes 10096 to remove decimal. 
-                # Additional decimals are removed
-                amount = int(float(user_input) * 100)
+                # convert user input to correct format
+                amount = MoneyParser.stringToInt(user_input)
 
             except:
 
                 self.state = states.transactionExit
-                return "error: invalid amount to withdraw"
+                return ErrorMessages.invalid_amount
 
             if amount <= 0:
                 self.state = states.transactionExit
-                return "error: amount must be positive"
+                return ErrorMessages.amount_must_be_positive
 
-            if self.withdrawal_user.amount_withdrawn + amount > 500_00 and not self.user.isAdmin():
+            if self.withdrawal_user.amount_withdrawn + amount > WITHDRAWAL_CAP and not self.user.isAdmin():
                 self.state = states.transactionExit
-                return "error: cannot exceed daily withdrawal cap of $500.00"
+                return ErrorMessages.daily_withdrawal_cap
 
             if amount > self.account.balance:
                 self.state = states.transactionExit
-                return "error: amount to withdraw cannot exceed account balance"
+                return ErrorMessages.insufficient_funds
 
             # attempt to update the balance of the account
             try:
 
                 self.account.updateBalance(amount)
 
-            except Exception as e:
+            except:
                 self.state = states.transactionExit
-                return "error: invalid amount to withdraw"
+
+                # this ideally should never be reached
+                return ErrorMessages.invalid_amount
 
             # do not update withdrawn amount if done by an admin
             # but do update it if a standard user
@@ -135,15 +142,15 @@ class WithdrawalManager(TransactionManager):
                     self.account.updateBalance(-amount)
                 except:
                     self.state = states.transactionExit
-                    return "error: unable to revert transaction after failing to log"
+                    return ErrorMessages.failed_to_revert_transaction
 
                 self.state = states.transactionExit
-                return "error: unable to log transaction -- aborting"
+                return ErrorMessages.failed_to_log_transaction
 
             self.state = states.transactionExit
-            return "withdrawal successful"
+            return SuccessMessages.withdrawal_success
         
-        return "error: state machine is not exiting properly"
+        return ErrorMessages.state_machine_failure
 
 
     def isComplete(self):

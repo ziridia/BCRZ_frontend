@@ -1,5 +1,5 @@
 
-from read_in_accounts import readInAccounts
+from helpers.read_in_accounts import readInAccounts
 
 from transaction_manager import TransactionManager
 
