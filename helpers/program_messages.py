@@ -19,6 +19,8 @@ class ErrorMessages:
     invalid_amount:str = "error: invalid amount"
     insufficient_funds:str = "error: insufficient funds"
 
+    insufficient_permissions:str = "error: insufficient permissions"
+
     amount_must_be_positive:str = "error: amount must be positive"
 
     failed_to_log_transaction:str = "error: unable to log transaction"
@@ -32,6 +34,8 @@ class ErrorMessages:
     # transfer specific
     daily_transfer_cap:str = "error: cannot exceed daily transfer cap of $1000.00"
 
+    # changeplan specific
+    already_non_student:str = "error: account plan is already not a student plan"
 
 class SuccessMessages:
 
