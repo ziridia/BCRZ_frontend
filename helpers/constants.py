@@ -13,3 +13,8 @@ WITHDRAWAL_CAP = 500_00
 
 TRANSFER_OUT_MSG:str = "EX"
 TRANSFER_IN_MSG:str = "IN"
+
+CURRENT_BANK_ACCOUNTS:str = "CurrentBankAccounts"
+DAILY_TRANSACTION_LOG:str = "dailyTransactionLog.txt"
+
+TRANSACTION_LOG_LENGTH:int = 41

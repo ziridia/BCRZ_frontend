@@ -1,9 +1,9 @@
 
-
+from helpers.constants import DAILY_TRANSACTION_LOG, TRANSACTION_LOG_LENGTH
+from helpers.debug_tools import debugPrint
 
 class TransactionLogger:
 
-    path:str = "dailyTransactionLog.txt"
 
     class codes:
 
@@ -23,7 +23,7 @@ class TransactionLogger:
         should never be run again afterwards
         """
 
-        transaction_file = open(TransactionLogger.path, "w")
+        transaction_file = open(DAILY_TRANSACTION_LOG, "w")
         transaction_file.close()
 
     def writeTransaction(transaction_code:int, account_name:str, account_number:int, amount:int, misc:str = "  "):
@@ -31,7 +31,7 @@ class TransactionLogger:
         Writes the input as a new line to the daily transaction log.
         Throws an error in case of erroneous input, or if the line cannot be written
         """
-
+        debugPrint(f"The transaction log path is {DAILY_TRANSACTION_LOG}")
         transaction:str = ""
         # Verify the transaction code is no more than 2 digits long, then convert to str adn add to transaction
         if transaction_code < 0 or transaction_code > 99:
@@ -67,11 +67,11 @@ class TransactionLogger:
         transaction += f" {misc}"
 
         # check that the length is correct
-        # if len(transaction) != 41:
-        #     raise Exception("transaction log length is not 41. Something went wrong")
+        if len(transaction) != TRANSACTION_LOG_LENGTH:
+            raise Exception(f"transaction log length is not {TRANSACTION_LOG_LENGTH}. Something went wrong")
 
         # append the transaction to file
-        transaction_file = open(TransactionLogger.path, "a")
+        transaction_file = open(DAILY_TRANSACTION_LOG, "a")
 
         transaction_file.write(transaction + "\n")
         
