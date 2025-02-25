@@ -22,7 +22,13 @@ def main():
     
     output:str = ""
     while output != "exit":
-        inputText = input()
+
+        try:
+            inputText = input()
+        
+        except:
+            return
+
         print(Interface.parseInput(inputText))
 
 if __name__ == "__main__":

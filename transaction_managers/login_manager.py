@@ -2,6 +2,8 @@
 from helpers.read_in_accounts import readInAccounts
 from helpers.read_in_accounts import USERS
 
+from helpers.program_messages import ErrorMessages, SuccessMessages
+
 from transaction_manager import TransactionManager
 
 from user import User
@@ -25,7 +27,8 @@ class LoginManager(TransactionManager):
         if self.state == states.beforeLogin:
 
             self.state = states.awaitSessionType
-            return "enter session type (standard or admin)"
+            return SuccessMessages.select_session_type
+
 
             
         elif self.state == states.awaitSessionType:
@@ -34,19 +37,20 @@ class LoginManager(TransactionManager):
                 # self.user.setRole("standard")
                 self.state = states.awaitAccountName
 
-                return "enter account name"
+                return SuccessMessages.enter_account_name
 
             if user_input == "admin":
                 # self.user.setRole("admin")
                 self.user = User("admin", list(), role="admin")
                 self.state = states.transactionExit
 
-                return "logged in"
+                return SuccessMessages.logged_in
 
             # no expected input was matched, so they gave bad input.
             # give an error message and exit the transaction
             self.state = states.transactionExit
-            return "error: error message"
+
+            return ErrorMessages.invalid_session_type
 
         elif self.state == states.awaitAccountName:
 
@@ -59,12 +63,12 @@ class LoginManager(TransactionManager):
             # if so, update the user, return success message
             self.state = states.transactionExit
             self.user = USERS[user_input]
-            return "logged in"
+            return SuccessMessages.logged_in
 
 
         # this should never be reached. Means that this function was called despite the transaction
         # being marked as complete
-        return "error: state machine is not exiting properly"
+        return ErrorMessages.state_machine_failure
 
 
     def isComplete(self):
