@@ -14,11 +14,11 @@ from account import Account
 
 class states:
     beforePaybill = 0 # user just typed "paybill", display appropriate message
-    transactionExit = -1 # flag transaction as finished (error or successful completion)
     awaitAccountName = 1
     awaitAccountNumber = 2
     awaitReciever = 3
     awaitAmount = 4
+    transactionExit = -1 # flag transaction as finished (error or successful completion)
 
 
 class PaybillManager(TransactionManager):

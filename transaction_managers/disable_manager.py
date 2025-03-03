@@ -8,8 +8,8 @@ from account import Account
 
 class states:
     beforeDisable = 0
-    askName = 1
-    askNumber = 2
+    awaitAccountName = 1
+    awaitAccountNumber = 2
     transactionExit = -1
 
 
@@ -38,10 +38,10 @@ class DisableManager(TransactionManager):
         # request user account name
         if self.state == states.beforeDisable:
 
-            self.state = states.askName
+            self.state = states.awaitAccountName
             return SuccessMessages.enter_account_name
         
-        elif self.state == states.askName:
+        elif self.state == states.awaitAccountName:
 
             # validate that the name is valid
             # validate that the name exists
@@ -53,10 +53,10 @@ class DisableManager(TransactionManager):
                 return ErrorMessages.user_not_found
             
             # name found, ask for account number
-            self.state = states.askNumber
+            self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
-        elif self.state == states.askNumber:
+        elif self.state == states.awaitAccountNumber:
 
             # get account from account number
             try:

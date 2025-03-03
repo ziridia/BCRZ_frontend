@@ -14,9 +14,9 @@ from user import User
 
 class states:
     beforeCreate = 0 # user just typed "create", display appropriate message
-    askName = 1 # user entered the account name
-    askNumber = 2 # user entered 
-    askBalance = 3 # user entered the account balance
+    awaitAccountName = 1 # user entered the account name
+    awaitAccountNumber = 2 # user entered account number
+    awaitBalance = 3 # user entered the account balance
     transactionExit = -1 # flag transaction as finished (error or successful completion)
 
 class CreateManager(TransactionManager):
@@ -43,11 +43,11 @@ class CreateManager(TransactionManager):
         # no input; prompt user for account name
         if self.state == states.beforeCreate:
             
-            self.state = states.askName
+            self.state = states.awaitAccountName
             return SuccessMessages.enter_account_name
         
         # account name input; request account number
-        if self.state == states.askName: 
+        if self.state == states.awaitAccountName: 
 
             # validate that the name is a valid length
             if len(user_input) > MAX_ACCOUNT_NAME_LENGTH or len(user_input) < 1:
@@ -78,11 +78,11 @@ class CreateManager(TransactionManager):
             debugPrint(f"the account name is called: {self.createdUser.name}")
 
             # prompt for the account number
-            self.state = states.askNumber
+            self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
         # account number input; request initial balance
-        if self.state == states.askNumber:
+        if self.state == states.awaitAccountNumber:
 
             # check that the number is valid (dimensions)
             if not Account.validateAccountNumber(user_input):
@@ -112,12 +112,12 @@ class CreateManager(TransactionManager):
             self.createdUser.addAccount(self.createdAccount)
             
             # ask for starting account balance
-            self.state = states.askBalance
+            self.state = states.awaitBalance
             return SuccessMessages.enter_starting_balance
 
 
         # balance as input; transaction exit here
-        if self.state == states.askBalance:
+        if self.state == states.awaitBalance:
             try:
                 balance:int = MoneyParser.stringToInt(user_input)
 

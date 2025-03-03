@@ -9,8 +9,8 @@ from account import Account
 
 class states:
     beforeDelete = 0 # user just typed "delete", display appropriate message
-    askName = 1 # ask for the bank account holders name
-    askNumber = 2 # ask for the account number
+    awaitAccountName = 1 # ask for the bank account holders name
+    awaitAccountNumber = 2 # ask for the account number
     transactionExit = -1 # flag transaction as finished (error or successful completion)
     
 
@@ -38,10 +38,10 @@ class DeleteManager(TransactionManager):
         # ask for the account name
         if self.state == states.beforeDelete:
 
-            self.state = states.askName
+            self.state = states.awaitAccountName
             return SuccessMessages.enter_account_name
         
-        elif self.state == states.askName:
+        elif self.state == states.awaitAccountName:
 
             # validate that the account exists
             name, self.deleteUser = getUser(user_input)
@@ -52,10 +52,10 @@ class DeleteManager(TransactionManager):
                 return ErrorMessages.user_not_found
 
             # ask for account number once user was found
-            self.state = states.askNumber
+            self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
-        elif self.state == states.askNumber:
+        elif self.state == states.awaitAccountNumber:
 
             # get account object from user input
             try:

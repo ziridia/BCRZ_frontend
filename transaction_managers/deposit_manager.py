@@ -9,10 +9,10 @@ from account import Account
 
 class states:
     beforeDeposit = 0 # user just typed "deposit", display appropriate message
-    transactionExit = -1 # flag transaction as finished (error or successful completion)
     awaitAccountName = 1
     awaitAccountNumber = 2
     awaitAmount = 3
+    transactionExit = -1 # flag transaction as finished (error or successful completion)
 
 
 class DepositManager(TransactionManager):
