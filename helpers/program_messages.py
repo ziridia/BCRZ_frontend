@@ -75,3 +75,6 @@ class SuccessMessages:
     
     # delete specific
     account_deleted:str = "account deleted"
+
+    # disable specific
+    account_disabled:str = "account disabled"
