@@ -71,6 +71,16 @@ class ChangeplanManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.account_not_found
             
+            # check if the account is disabled
+            if account.isDisabled:
+                self.state = states.transactionExit
+                return ErrorMessages.account_disabled
+
+            # check if the account is deleted
+            if account.isDeleted:
+                self.state = states.transactionExit
+                return ErrorMessages.account_not_found
+            
             # No way to know if an account has a student plan from the current bank accounts file
             # ignore this check for the time being and always log the change
             # if not account.isStudentPlan:

@@ -32,6 +32,8 @@ class ErrorMessages:
 
     exceed_max_balance:str = "error: cannot exceed max balance of $999,999.99"
 
+    account_disabled:str = "error: account is disabled"
+
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 
@@ -44,9 +46,14 @@ class ErrorMessages:
     # login specific
     invalid_session_type:str = "error: invalid session type"
     already_logged_in:str = "error: already logged in"
-        
+
     # paybill specific
     invalid_receiver_code:str = "error: invalid receiver code"
+
+    # create specific
+    account_already_exists:str = "error: account already exists"
+
+    
 
 
 class SuccessMessages:

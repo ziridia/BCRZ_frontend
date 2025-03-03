@@ -72,6 +72,16 @@ class DisableManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.account_not_found
 
+            # check if the account is disabled
+            if account.isDisabled:
+                self.state = states.transactionExit
+                return ErrorMessages.account_disabled
+
+            # check if the account is deleted
+            if account.isDeleted:
+                self.state = states.transactionExit
+                return ErrorMessages.account_not_found
+                
             # write the transaction
             try:
                 TransactionLogger.writeTransaction(
