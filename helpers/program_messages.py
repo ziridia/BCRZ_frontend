@@ -73,3 +73,5 @@ class SuccessMessages:
     enter_starting_balance:str = "enter starting balance"
     account_created:str = "account created"
     
+    # delete specific
+    account_deleted:str = "account deleted"

@@ -1,5 +1,5 @@
 
-from helpers.constants import MAX_ACCOUNT_NAME_LENGTH, MAX_ACCOUNT_NUMBER, MAX_BALANCE, MISC_FIELD_LENGTH
+from helpers.constants import DAILY_TRANSACTION_LOG, MAX_ACCOUNT_NAME_LENGTH, MAX_ACCOUNT_NUMBER, MAX_BALANCE, MISC_FIELD_LENGTH, TRANSACTION_LOG_LENGTH
 
 class TransactionLogger:
 
@@ -30,7 +30,7 @@ class TransactionLogger:
         Writes the input as a new line to the daily transaction log.
         Throws an error in case of erroneous input, or if the line cannot be written
         """
-        debugPrint(f"The transaction log path is {DAILY_TRANSACTION_LOG}")
+
         transaction:str = ""
         # Verify the transaction code is no more than 2 digits long, then convert to str adn add to transaction
         if transaction_code < 0 or transaction_code > 99:
