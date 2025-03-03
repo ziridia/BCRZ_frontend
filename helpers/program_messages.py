@@ -41,6 +41,10 @@ class ErrorMessages:
     # changeplan specific
     already_non_student:str = "error: account plan is already not a student plan"
 
+    # login specific
+    invalid_session_type:str = "error: invalid session type"
+    
+
 class SuccessMessages:
 
     enter_account_name:str = "enter account name"
@@ -59,6 +63,11 @@ class SuccessMessages:
     
     # logout specific
     logged_out:str = "logged out"
+
+    # login specific
+    logged_in:str = "login successful"
+    select_session_type:str = "select desired session type (admin, standard)"
+    
 
     # create specific
     enter_starting_balance:str = "enter starting balance"
