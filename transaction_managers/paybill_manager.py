@@ -7,7 +7,7 @@ from helpers.program_messages import ErrorMessages, SuccessMessages
 from helpers.debug_tools import debugPrint
 from helpers.money_parser import MoneyParser
 
-from helpers.constants import RECEIVER_CODE_LENGTH
+from helpers.constants import RECEIVER_CODE_LENGTH, PAYBILL_COMPANIES, MAX_PAYBILL_AMOUNT
 
 from helpers.read_in_accounts import USERS
 from account import Account
@@ -89,26 +89,37 @@ class PaybillManager(TransactionManager):
         
         if self.state == states.awaitReciever:
 
-            if len(user_input) != RECEIVER_CODE_LENGTH:
+            for code, name in PAYBILL_COMPANIES.items():
 
+                if user_input == code.lower() or user_input == name.lower():
+                    self.receiver_index = code
+                    break
+
+            else:
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_receiver_code
-            
-            self.receiver_index = user_input
-        
+                    
             self.state = states.awaitAmount
             return SuccessMessages.enter_amount
         
 
         if self.state == states.awaitAmount:
-
             
             try:
                 # convert user input to int
                 amount = MoneyParser.stringToInt(user_input)
 
+                # make sure this wont exceed pill payment cap
+                if self.paybill_user.amount_paid_in_bills + amount > MAX_PAYBILL_AMOUNT:
+
+                    self.state = states.transactionExit
+                    return ErrorMessages.invalid_amount
+                
                 # take users money
                 self.paybill_account.updateBalance(-amount)
+
+                # update the bill payment amount for the user
+                self.paybill_user.amount_paid_in_bills += amount
 
                 # log transaction
                 TransactionLogger.writeTransaction(
@@ -121,7 +132,7 @@ class PaybillManager(TransactionManager):
 
                 self.state = states.transactionExit
                 return SuccessMessages.transaction_success
-                
+
             except Exception as e:
                 
                 debugPrint(e)

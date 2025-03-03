@@ -10,6 +10,7 @@ ACCOUNT_NUMBER_LENGTH = 5
 MAX_ACCOUNT_NAME_LENGTH = 20
 MAX_ACCOUNT_NUMBER = 99999
 MAX_BALANCE = 999_999_99
+MAX_PAYBILL_AMOUNT = 2_000_00
 TRANSFER_CAP = 1_000_00
 WITHDRAWAL_CAP = 500_00
 
@@ -24,3 +25,9 @@ CURRENT_BANK_ACCOUNTS:str = "CurrentBankAccounts"
 DAILY_TRANSACTION_LOG:str = "dailyTransactionLog.txt"
 
 TRANSACTION_LOG_LENGTH:int = 41
+
+PAYBILL_COMPANIES = {
+    "EC": "The Bright Light Electric Company",
+    "CQ": "Credit Card Company Q",
+    "FI": "Fast Internet, Inc."
+}
