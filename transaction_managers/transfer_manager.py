@@ -43,6 +43,12 @@ class TransferManager(TransactionManager):
         ||exit||
         """
 
+        if self.user == None:
+
+            self.state = states.transactionExit
+            return ErrorMessages.not_logged_in
+            
+
         if self.state == states.beforeTransfer:
 
             if self.user.isAdmin():

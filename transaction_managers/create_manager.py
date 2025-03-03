@@ -28,6 +28,12 @@ class CreateManager(TransactionManager):
 
     def next(self, user_input):
 
+        if self.user == None:
+
+            self.state = states.transactionExit
+            return ErrorMessages.not_logged_in
+            
+
         if not self.user.isAdmin():
             # user is not an admin, abort transaction
             self.state = states.transactionExit

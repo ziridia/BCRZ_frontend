@@ -24,14 +24,19 @@ class LoginManager(TransactionManager):
 
     def next(self, user_input):
 
+        if self.user != None:
+
+            self.state = states.transactionExit
+            return ErrorMessages.already_logged_in
+
+
         if self.state == states.beforeLogin:
 
             self.state = states.awaitSessionType
             return SuccessMessages.select_session_type
-
-
             
-        elif self.state == states.awaitSessionType:
+
+        if self.state == states.awaitSessionType:
             
             if user_input == "standard":
                 # self.user.setRole("standard")
@@ -52,7 +57,8 @@ class LoginManager(TransactionManager):
 
             return ErrorMessages.invalid_session_type
 
-        elif self.state == states.awaitAccountName:
+
+        if self.state == states.awaitAccountName:
 
             # if user doesn't exist return error message
             if user_input not in USERS:

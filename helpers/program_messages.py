@@ -43,9 +43,11 @@ class ErrorMessages:
 
     # login specific
     invalid_session_type:str = "error: invalid session type"
-    
+    already_logged_in:str = "error: already logged in"
+        
     # paybill specific
     invalid_receiver_code:str = "error: invalid receiver code"
+
 
 class SuccessMessages:
 

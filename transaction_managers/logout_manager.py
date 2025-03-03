@@ -18,8 +18,9 @@ class LogoutManager(TransactionManager):
     def next(self, user_input):
 
         if self.user == None:
+
             self.state = states.transactionExit
-            return "error: not logged in"
+            return ErrorMessages.not_logged_in
 
         try:
 

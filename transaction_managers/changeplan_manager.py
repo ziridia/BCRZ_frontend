@@ -24,6 +24,12 @@ class ChangeplanManager(TransactionManager):
 
     def next(self, user_input):
 
+        if self.user == None:
+
+            self.state = states.transactionExit
+            return ErrorMessages.not_logged_in
+            
+
         if self.state == states.beforeChangeplan:
 
             if not self.user.isAdmin():

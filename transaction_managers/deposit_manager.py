@@ -25,6 +25,12 @@ class DepositManager(TransactionManager):
 
     def next(self, user_input):
 
+        if self.user == None:
+
+            self.state = states.transactionExit
+            return ErrorMessages.not_logged_in
+            
+
         if self.state == states.beforeDeposit:
             
             if self.user.isAdmin():
