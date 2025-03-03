@@ -82,16 +82,25 @@ class TransferManager(TransactionManager):
 
         elif self.state == states.awaitAccountNumber:
 
-            # validate account number
-            if not Account.validateAccountNumber(user_input):
-                self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
+            # # validate account number
+            # if not Account.validateAccountNumber(user_input):
+            #     self.state = states.transactionExit
+            #     return ErrorMessages.invalid_account_number
             
-            # Verify if account exists
-            self.transfer_out_account = self.transfer_out_user.getAccount(int(user_input))
-            if self.transfer_out_account == None:
+            # # Verify if account exists
+            # self.transfer_out_account = self.transfer_out_user.getAccount(int(user_input))
+            # if self.transfer_out_account == None:
+            #     self.state = states.transactionExit
+            #     return ErrorMessages.account_not_found
+
+            try:
+                
+                self.transfer_out_account = TransactionManager.getAccountFromUser(self.transfer_out_user, user_input)
+            
+            except Exception as e:
+
                 self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                return str(e)
 
             # ask for account name of receiving account
             self.state = states.awaitSecondAccountName
@@ -116,16 +125,20 @@ class TransferManager(TransactionManager):
 
         if self.state == states.awaitSecondAccountNumber:
 
-            # Verify if Reciever Account is a vaild code.
-            if not Account.validateAccountNumber(user_input):
-                self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
+            try:
 
-            # confirm account exists
-            self.transfer_in_account = self.transfer_in_user.getAccount(int(user_input))
-            if self.transfer_in_account == None:
+                self.transfer_in_account = TransactionManager.getAccountFromUser(self.transfer_in_user, user_input)
+            
+            except Exception as e:
+
                 self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                return str(e)
+
+            # block transfers into the same account that is being pulled from
+            if self.transfer_in_account == self.transfer_out_account:
+
+                self.state = states.transactionExit
+                return ErrorMessages.cannot_transfer_to_yourself
 
             # Next part of the Transfer.
             self.state = states.awaitAmount

@@ -58,28 +58,15 @@ class ChangeplanManager(TransactionManager):
         
         if self.state == states.awaitAccountNumber:
 
-            # validate that the account number is the correct format
-            if not Account.validateAccountNumber(user_input):
-                self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
+            # get account object from user input
+            try:
 
-            # fetch the account from this user
-            account = self.changeplan_user.getAccount(int(user_input))
-
-            # if there is no account, return an error message and exit
-            if account == None:
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                account = TransactionManager.getAccountFromUser(self.changeplan_user, user_input)
             
-            # check if the account is disabled
-            if account.isDisabled:
-                self.state = states.transactionExit
-                return ErrorMessages.account_disabled
+            except Exception as e:
 
-            # check if the account is deleted
-            if account.isDeleted:
                 self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                return str(e)
             
             # No way to know if an account has a student plan from the current bank accounts file
             # ignore this check for the time being and always log the change

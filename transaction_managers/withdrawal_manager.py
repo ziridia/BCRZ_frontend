@@ -64,14 +64,14 @@ class WithdrawalManager(TransactionManager):
 
         if self.state == states.getAccountNumber:
 
-            # check if the account number provided is valid
-            if not Account.validateAccountNumber(user_input):
+            try:
+
+                self.account = TransactionManager.getAccountFromUser(self.withdrawal_user, user_input)
+            
+            except Exception as e:
 
                 self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
-            
-            # confirm the account exists in the user accounts list
-            self.account = self.withdrawal_user.getAccount(int(user_input))
+                return str(e)
 
             # account exists for this user, ask for amount to withdraw
             self.state = states.getAmountToWithdraw

@@ -57,18 +57,15 @@ class DeleteManager(TransactionManager):
         
         elif self.state == states.askNumber:
 
-            # check that the account number is a valid format
-            if not Account.validateAccountNumber(user_input):
+            # get account object from user input
+            try:
+
+                account = TransactionManager.getAccountFromUser(self.deleteUser, user_input)
+            
+            except Exception as e:
 
                 self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
-
-            # validate that the name-number pair exists
-            account = self.deleteUser.getAccount(int(user_input))
-
-            if account == None:
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                return str(e)
 
             # write the transaction
             try:

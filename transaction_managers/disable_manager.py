@@ -58,30 +58,16 @@ class DisableManager(TransactionManager):
         
         elif self.state == states.askNumber:
 
-            # check that the account number is a valid format
-            if not Account.validateAccountNumber(user_input):
+            # get account from account number
+            try:
+
+                account = TransactionManager.getAccountFromUser(self.disabledUser, user_input)
+            
+            except Exception as e:
 
                 self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
+                return str(e)
 
-            # validate that the name-number pair exists
-            account = self.disabledUser.getAccount(int(user_input))
-
-            if account == None:
-
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
-
-            # check if the account is disabled
-            if account.isDisabled:
-                self.state = states.transactionExit
-                return ErrorMessages.account_disabled
-
-            # check if the account is deleted
-            if account.isDeleted:
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
-                
             # write the transaction
             try:
                 TransactionLogger.writeTransaction(

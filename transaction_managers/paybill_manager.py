@@ -53,7 +53,7 @@ class PaybillManager(TransactionManager):
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
-        
+
         if self.state == states.awaitAccountName:
 
             # validate that the user exists
@@ -72,13 +72,13 @@ class PaybillManager(TransactionManager):
         if self.state == states.awaitAccountNumber:
 
             # check that the account number is valid
-            if not Account.validateAccountNumber(user_input):
-
+            try:
+                self.paybill_account = TransactionManager.getAccountFromUser(self.paybill_user, user_input)
+            
+            except Exception as e:
                 self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
-
-            # check that the user has an account with that number
-            self.paybill_account = self.paybill_user.getAccount(int(user_input))
+                return str(e)
+            
                     
             # ask for the receiver code
             self.state = states.awaitReciever

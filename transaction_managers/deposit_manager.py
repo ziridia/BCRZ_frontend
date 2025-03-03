@@ -59,20 +59,15 @@ class DepositManager(TransactionManager):
         
         elif self.state == states.awaitAccountNumber:
 
-            # check if account exists for this user
-            # check that the account number is a valid format
-            if not Account.validateAccountNumber(user_input):
+            # get account from the user input
+            try:
+
+                self.depositAccount = TransactionManager.getAccountFromUser(self.depositUser, user_input)
+            
+            except Exception as e:
 
                 self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
-
-            # validate that the name-number pair exists
-            self.depositAccount = self.depositUser.getAccount(int(user_input))
-
-            if self.depositAccount == None:
-
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+                return str(e)
 
             # ask for amount to deposit            
             self.state = states.awaitAmount

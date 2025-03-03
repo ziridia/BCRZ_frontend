@@ -39,6 +39,7 @@ class ErrorMessages:
 
     # transfer specific
     daily_transfer_cap:str = "error: cannot exceed daily transfer cap of $1000.00"
+    cannot_transfer_to_yourself:str = "error: cannot transfer to the same account as is being transferred from"
 
     # changeplan specific
     already_non_student:str = "error: account plan is already not a student plan"
