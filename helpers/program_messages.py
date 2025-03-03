@@ -28,6 +28,10 @@ class ErrorMessages:
 
     state_machine_failure:str = "error: state machine is not exiting properly"
 
+    name_too_long:str = "error: account name must be between 1 and 20 characters long"
+
+    exceed_max_balance:str = "error: cannot exceed max balance of $999,999.99"
+
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 
@@ -55,3 +59,8 @@ class SuccessMessages:
     
     # logout specific
     logged_out:str = "logged out"
+
+    # create specific
+    enter_starting_balance:str = "enter starting balance"
+    account_created:str = "account created"
+    

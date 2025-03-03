@@ -1,5 +1,5 @@
 
-
+from helpers.constants import MAX_ACCOUNT_NAME_LENGTH, MAX_ACCOUNT_NUMBER, MAX_BALANCE, MISC_FIELD_LENGTH
 
 class TransactionLogger:
 
@@ -40,29 +40,29 @@ class TransactionLogger:
         transaction = f"{transaction_code:02d}"
 
         # Verify the account name is not empty, and is at most 20 characters long
-        if len(account_name) <= 0 or len(account_name) > 20:
+        if len(account_name) <= 0 or len(account_name) > MAX_ACCOUNT_NAME_LENGTH:
             raise ValueError("account name must be between 1 and 20 characters long inclusive") 
 
         # add padding to the right side of the string to make it 20 characters long
-        transaction += f" {account_name.ljust(20)}"
+        transaction += f" {account_name.ljust(MAX_ACCOUNT_NAME_LENGTH)}"
 
         # verify account number is non-negative and <= 99999
-        if account_number < 0 or account_number > 99999:
+        if account_number < 0 or account_number > MAX_ACCOUNT_NUMBER:
             raise ValueError("account number must be between 0 and 99999 (inclusive)")
 
         transaction += f" {account_number:05d}"
 
         # verify the amount is between 0 and 999,999.99
-        if amount < 0 or amount > 999_999_99:
+        if amount < 0 or amount > MAX_BALANCE:
             raise ValueError("amount must be between 0 and 999,999.99")
 
         transaction += f" {amount:08d}"
 
         # verify that the misc field is either empty or exactly 2 characters long
-        if len(misc) != 0 and len(misc) != 2:
+        if len(misc) != 0 and len(misc) != MISC_FIELD_LENGTH:
             raise ValueError("misc field must be empty or 2 characters long")
 
-        misc = misc.rjust(2)
+        misc = misc.rjust(MISC_FIELD_LENGTH)
 
         transaction += f" {misc}"
 
