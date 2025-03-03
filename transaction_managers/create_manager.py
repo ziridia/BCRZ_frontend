@@ -5,7 +5,7 @@ from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
 from helpers.debug_tools import debugPrint
 from helpers.transaction_logger import TransactionLogger
-from helpers.read_in_accounts import USERS, getUser
+from helpers.read_in_accounts import getUser
 from helpers.money_parser import MoneyParser
 from helpers.constants import MAX_ACCOUNT_NAME_LENGTH, MAX_BALANCE
 
@@ -32,7 +32,7 @@ class CreateManager(TransactionManager):
 
             self.state = states.transactionExit
             return ErrorMessages.not_logged_in
-            
+
 
         if not self.user.isAdmin():
             # user is not an admin, abort transaction
@@ -115,10 +115,5 @@ class CreateManager(TransactionManager):
                 self.state = states.transactionExit
                 return invalid_amount
             
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

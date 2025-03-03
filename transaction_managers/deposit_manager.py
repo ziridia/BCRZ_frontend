@@ -1,7 +1,7 @@
 
 from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
-from helpers.read_in_accounts import USERS
+from helpers.read_in_accounts import getUser
 from helpers.transaction_logger import TransactionLogger
 from helpers.debug_tools import debugPrint
 from helpers.money_parser import MoneyParser
@@ -25,30 +25,30 @@ class DepositManager(TransactionManager):
 
     def next(self, user_input):
 
+        # abort transaction if not logged in
         if self.user == None:
 
             self.state = states.transactionExit
             return ErrorMessages.not_logged_in
-            
+
 
         if self.state == states.beforeDeposit:
             
+            # if the user is an admin, request the account name
             if self.user.isAdmin():
                 self.state = states.awaitAccountName
                 return SuccessMessages.enter_account_name
             
+            # otherwise ask for the account number
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
         if self.state == states.awaitAccountName:
 
             # check if user exists
-            for name,user in USERS.items():
+            name, self.depositUser = getUser(user_input)
 
-                if name == user_input:
-                    self.depositUser = user
-                    break
-            else:
+            if name == "" or self.depositUser == None:
 
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
@@ -67,12 +67,9 @@ class DepositManager(TransactionManager):
                 return ErrorMessages.invalid_account_number
 
             # validate that the name-number pair exists
-            for account in self.depositUser.accounts:
+            self.depositAccount = self.depositUser.getAccount(int(user_input))
 
-                if account.account_number == int(user_input):
-                    self.depositAccount = account
-                    break
-            else:
+            if self.depositAccount == None:
 
                 self.state = states.transactionExit
                 return ErrorMessages.account_not_found
@@ -110,11 +107,5 @@ class DepositManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
         
-        return "error: state machine is not exiting properly"
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user
+        self.state = states.transactionExit
+        return ErrorMessages.state_machine_failure

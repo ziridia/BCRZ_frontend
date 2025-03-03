@@ -3,7 +3,7 @@
 from transaction_manager import TransactionManager
 
 from helpers.program_messages import ErrorMessages, SuccessMessages
-from helpers.read_in_accounts import USERS, getUser
+from helpers.read_in_accounts import getUser
 from helpers.money_parser import MoneyParser
 from helpers.transaction_logger import TransactionLogger
 from helpers.constants import TRANSFER_CAP, TRANSFER_IN_MSG, TRANSFER_OUT_MSG
@@ -43,6 +43,7 @@ class TransferManager(TransactionManager):
         ||exit||
         """
 
+        # abort transaction if not logged in
         if self.user == None:
 
             self.state = states.transactionExit
@@ -50,13 +51,14 @@ class TransferManager(TransactionManager):
             
 
         if self.state == states.beforeTransfer:
-
+            
+            # if the user is an admin, ask for an account name
             if self.user.isAdmin():
 
                 self.state = states.awaitAccountName
                 return SuccessMessages.enter_account_name
 
-            self.transfer_out_user = self.user
+            # otherwise ask for account number
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
             
@@ -64,9 +66,9 @@ class TransferManager(TransactionManager):
         elif self.state == states.awaitAccountName:
             # this is admin only
 
+            # check that the user exists
             user_name, user = getUser(user_input)
 
-            # check that the user exists
             if user_name == "" or user == None:
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
@@ -77,6 +79,7 @@ class TransferManager(TransactionManager):
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
+
         elif self.state == states.awaitAccountNumber:
 
             # validate account number
@@ -94,6 +97,7 @@ class TransferManager(TransactionManager):
             self.state = states.awaitSecondAccountName
             return SuccessMessages.enter_transfer_to_account_name
 
+
         if self.state == states.awaitSecondAccountName:
 
             # check if user exists
@@ -108,6 +112,7 @@ class TransferManager(TransactionManager):
             self.transfer_in_user = user
             self.state = states.awaitSecondAccountNumber
             return SuccessMessages.enter_account_number
+
 
         if self.state == states.awaitSecondAccountNumber:
 
@@ -126,6 +131,7 @@ class TransferManager(TransactionManager):
             self.state = states.awaitAmount
             return SuccessMessages.enter_amount
         
+
         if self.state == states.awaitAmount:
             
             # convert amount to be correct format
@@ -150,12 +156,16 @@ class TransferManager(TransactionManager):
             if amount > self.transfer_out_account.balance:
                 self.state = states.transactionExit
                 return ErrorMessages.insufficient_funds
+
+
             # update account balances
             try:
                 self.transfer_out_account.updateBalance(-amount)
             except:
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
+
+
             try:
                 self.transfer_in_account.updateBalance(amount)
             except Exception as e:
@@ -164,6 +174,8 @@ class TransferManager(TransactionManager):
 
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
+
+
             # update daily transfer amount if not admin
             if not self.user.isAdmin():
                 self.transfer_out_user.amount_transferred += amount
@@ -196,11 +208,6 @@ class TransferManager(TransactionManager):
             self.state = states.transactionExit
             return SuccessMessages.transaction_success
 
+
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

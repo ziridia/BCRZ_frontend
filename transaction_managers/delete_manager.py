@@ -2,7 +2,7 @@
 
 from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
-from helpers.read_in_accounts import USERS
+from helpers.read_in_accounts import getUser
 from helpers.transaction_logger import TransactionLogger
 from helpers.debug_tools import debugPrint
 from account import Account
@@ -20,21 +20,22 @@ class DeleteManager(TransactionManager):
         self.user = user    
         self.state:int = states.beforeDelete
         self.deleteUser = None
-        self.account = None
 
     def next(self, user_input):
 
+        # if the user is not logged in, abort transaction immediately
         if self.user == None:
 
             self.state = states.transactionExit
             return ErrorMessages.not_logged_in
-            
 
+        # if the user is not admin, abort transaction immediately
         if not self.user.isAdmin():
             
             self.state = states.transactionExit
             return ErrorMessages.insufficient_permissions
 
+        # ask for the account name
         if self.state == states.beforeDelete:
 
             self.state = states.askName
@@ -42,21 +43,15 @@ class DeleteManager(TransactionManager):
         
         elif self.state == states.askName:
 
-            # validate that the name is valid
-            # validate that the name exists
-            for name,user in USERS.items():
+            # validate that the account exists
+            name, self.deleteUser = getUser(user_input)
 
-                if name == user_input:
-                    self.deleteUser = user
-                    break
-            else:
+            if name == "" or self.deleteUser == None:
 
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
 
-
-            self.accountName = user_input
-            
+            # ask for account number once user was found
             self.state = states.askNumber
             return SuccessMessages.enter_account_number
         
@@ -69,13 +64,9 @@ class DeleteManager(TransactionManager):
                 return ErrorMessages.invalid_account_number
 
             # validate that the name-number pair exists
-            for account in self.deleteUser.accounts:
+            account = self.deleteUser.getAccount(int(user_input))
 
-                if account.account_number == int(user_input):
-                    self.account = account
-                    break
-            else:
-
+            if account == None:
                 self.state = states.transactionExit
                 return ErrorMessages.account_not_found
 
@@ -84,7 +75,7 @@ class DeleteManager(TransactionManager):
                 TransactionLogger.writeTransaction(
                     TransactionLogger.codes.delete,
                     self.deleteUser.name,
-                    self.account.account_number,
+                    account.account_number,
                     0
                 )
             except Exception as e:
@@ -94,17 +85,11 @@ class DeleteManager(TransactionManager):
                 return ErrorMessages.failed_to_log_transaction
 
             # flag the account as deleted
-            self.account.isDeleted = True
+            account.isDeleted = True
 
+            # exit transaction successfully
             self.state = states.transactionExit
             return SuccessMessages.account_deleted
         
-            
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

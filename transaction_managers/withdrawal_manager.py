@@ -10,7 +10,9 @@ from helpers.money_parser import MoneyParser
 
 from helpers.constants import ACCOUNT_NUMBER_LENGTH, WITHDRAWAL_CAP
 
-from helpers.read_in_accounts import USERS
+from helpers.read_in_accounts import getUser
+
+from account import Account
 
 class states:
     beforeWithdrawal = 0 # user just typed "withdrawal", ask for account name (admin) or number (standard)
@@ -48,44 +50,28 @@ class WithdrawalManager(TransactionManager):
         if self.state == states.getAccountNameAsAdmin:
 
             # find user account from users list
-            for name,user in USERS.items():
-                if name == user_input:
-                    self.withdrawal_user = user
-                    self.state = states.getAccountNumber
-                    return SuccessMessages.enter_account_number
-            else:
+            name, self.withdrawal_user = getUser(user_input)
+
+            if name == "" or self.withdrawal_user == None:
+
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
-
             
+            # user was found, ask for account number
+            self.state = states.getAccountNumber
+            return SuccessMessages.enter_account_number
             
 
         if self.state == states.getAccountNumber:
 
             # check if the account number provided is valid
-            # confirm its a number
-            try:
-                int(user_input)
-            except:
-                self.state = states.transactionExit
-                return ErrorMessages.invalid_account_number
-            
-            # confirm its 5 digits
-            if len(user_input) != ACCOUNT_NUMBER_LENGTH:
+            if not Account.validateAccountNumber(user_input):
+
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_account_number
             
             # confirm the account exists in the user accounts list
-            valid_account:bool = False
-            for account in self.withdrawal_user.accounts:
-                if account.account_number == int(user_input):
-                    self.account = account
-                    valid_account = True
-                    break
-            
-            if not valid_account:
-                self.state = states.transactionExit
-                return ErrorMessages.account_not_found
+            self.account = self.withdrawal_user.getAccount(int(user_input))
 
             # account exists for this user, ask for amount to withdraw
             self.state = states.getAmountToWithdraw
@@ -132,6 +118,7 @@ class WithdrawalManager(TransactionManager):
             if not self.user.isAdmin():
                 self.withdrawal_user.amount_withdrawn += amount
 
+            # log transaction
             try:
                 TransactionLogger.writeTransaction(
                     TransactionLogger.codes.withdrawal,
@@ -153,4 +140,5 @@ class WithdrawalManager(TransactionManager):
             self.state = states.transactionExit
             return SuccessMessages.withdrawal_success
         
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure

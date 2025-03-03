@@ -1,16 +1,16 @@
 
 from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
-from helpers.read_in_accounts import USERS
+from helpers.read_in_accounts import getUser
 from helpers.transaction_logger import TransactionLogger
 from helpers.debug_tools import debugPrint
 from account import Account
 
 class states:
-    beforeDisable = 0 # user just typed "withdrawal", display appropriate message
+    beforeDisable = 0
     askName = 1
     askNumber = 2
-    transactionExit = -1 # flag transaction as finished (error or successful completion)
+    transactionExit = -1
 
 
 class DisableManager(TransactionManager):
@@ -23,18 +23,19 @@ class DisableManager(TransactionManager):
 
     def next(self, user_input):
 
+        # abort transaction if not logged in
         if self.user == None:
 
             self.state = states.transactionExit
             return ErrorMessages.not_logged_in
 
-
+        # abort transaction if not admin
         if not self.user.isAdmin():
             
             self.state = states.transactionExit
             return ErrorMessages.insufficient_permissions
 
-
+        # request user account name
         if self.state == states.beforeDisable:
 
             self.state = states.askName
@@ -44,19 +45,14 @@ class DisableManager(TransactionManager):
 
             # validate that the name is valid
             # validate that the name exists
-            for name,user in USERS.items():
+            name, self.disabledUser = getUser(user_input)
 
-                if name == user_input:
-                    self.disabledUser = user
-                    break
-            else:
+            if name == "" or self.disabledUser == None:
 
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
-
-
-            self.accountName = user_input
             
+            # name found, ask for account number
             self.state = states.askNumber
             return SuccessMessages.enter_account_number
         
@@ -69,12 +65,9 @@ class DisableManager(TransactionManager):
                 return ErrorMessages.invalid_account_number
 
             # validate that the name-number pair exists
-            for account in self.disabledUser.accounts:
+            account = self.disabledUser.getAccount(int(user_input))
 
-                if account.account_number == int(user_input):
-                    self.account = account
-                    break
-            else:
+            if account == None:
 
                 self.state = states.transactionExit
                 return ErrorMessages.account_not_found
@@ -84,7 +77,7 @@ class DisableManager(TransactionManager):
                 TransactionLogger.writeTransaction(
                     TransactionLogger.codes.disable,
                     self.disabledUser.name,
-                    self.account.account_number,
+                    account.account_number,
                     0
                 )
             except Exception as e:
@@ -94,17 +87,10 @@ class DisableManager(TransactionManager):
                 return ErrorMessages.failed_to_log_transaction
 
             # flag the account as disabled
-            self.account.isDisabled = True
+            account.isDisabled = True
 
             self.state = states.transactionExit
             return SuccessMessages.account_disabled
         
-            
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

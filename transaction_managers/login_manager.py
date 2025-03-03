@@ -1,7 +1,6 @@
 
-from helpers.read_in_accounts import readInAccounts
-from helpers.read_in_accounts import USERS
-
+from helpers.read_in_accounts import readInAccounts, getUser, USERS
+from helpers.constants import ADMIN, STANDARD
 from helpers.program_messages import ErrorMessages, SuccessMessages
 
 from transaction_manager import TransactionManager
@@ -38,47 +37,37 @@ class LoginManager(TransactionManager):
 
         if self.state == states.awaitSessionType:
             
-            if user_input == "standard":
-                # self.user.setRole("standard")
+            if user_input == STANDARD:
+                
                 self.state = states.awaitAccountName
-
                 return SuccessMessages.enter_account_name
 
-            if user_input == "admin":
-                # self.user.setRole("admin")
-                self.user = User("admin", list(), role="admin")
-                self.state = states.transactionExit
+            if user_input == ADMIN:
 
+                self.user = User(ADMIN, list(), role=ADMIN)
+
+                self.state = states.transactionExit
                 return SuccessMessages.logged_in
 
             # no expected input was matched, so they gave bad input.
             # give an error message and exit the transaction
             self.state = states.transactionExit
-
             return ErrorMessages.invalid_session_type
 
 
         if self.state == states.awaitAccountName:
 
-            # if user doesn't exist return error message
-            if user_input not in USERS:
+            # get user from user list
+            name, self.user = getUser(user_input)
+            
+            # if user doesn't exist, exit with error message
+            if self.user == None:
                 self.state = states.transactionExit
-                return "error: user not found"
-
-            # see if the input matches any user accounts
-            # if so, update the user, return success message
+                return ErrorMessages.user_not_found
+            
+            # return success message
             self.state = states.transactionExit
-            self.user = USERS[user_input]
             return SuccessMessages.logged_in
 
-
-        # this should never be reached. Means that this function was called despite the transaction
-        # being marked as complete
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

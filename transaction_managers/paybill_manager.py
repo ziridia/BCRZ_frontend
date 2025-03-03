@@ -9,7 +9,7 @@ from helpers.money_parser import MoneyParser
 
 from helpers.constants import RECEIVER_CODE_LENGTH, PAYBILL_COMPANIES, MAX_PAYBILL_AMOUNT
 
-from helpers.read_in_accounts import USERS
+from helpers.read_in_accounts import getUser
 from account import Account
 
 class states:
@@ -22,11 +22,6 @@ class states:
 
 
 class PaybillManager(TransactionManager):
-    """Company examples for bill payments, using reciever codes for company codes."""
-
-    Company_Examples = {"EC": "The Bright Light Electric Company",
-                        "CQ": "Credit Card Company Q",
-                        "FI": "Fast Internet, Inc."}
 
     def __init__(self, user):
         self.user = user    
@@ -39,6 +34,7 @@ class PaybillManager(TransactionManager):
 
     def next(self, user_input):
         
+        # abort transaction if not logged in
         if self.user == None:
 
             self.state = states.transactionExit
@@ -47,27 +43,31 @@ class PaybillManager(TransactionManager):
 
         if self.state == states.beforePaybill:
 
+            # ask for account name if admin
             if self.user.isAdmin():
 
                 self.state = states.awaitAccountName
                 return SuccessMessages.enter_account_name
             
+            # otherwise ask for account number
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
         
+        
         if self.state == states.awaitAccountName:
 
-            # set paybill_user to the user that was entered
-            # if it does not exist, return error message and exit
-             # find user account from users list
-            for name,user in USERS.items():
-                if name == user_input:
-                    self.paybill_user = user
-                    self.state = states.awaitAccountNumber
-                    return SuccessMessages.enter_account_number
+            # validate that the user exists
+            name, self.paybill_user = getUser(user_input)
             
-            self.state = states.transactionExit
-            return ErrorMessages.user_not_found
+            if name == "" or self.paybill_user == None:
+
+                self.state = states.transactionExit
+                return ErrorMessages.user_not_found
+
+            # ask for account number if the user exists
+            self.state = states.awaitAccountNumber
+            return SuccessMessages.enter_account_number
+
 
         if self.state == states.awaitAccountNumber:
 
@@ -78,32 +78,27 @@ class PaybillManager(TransactionManager):
                 return ErrorMessages.invalid_account_number
 
             # check that the user has an account with that number
-            for account in self.paybill_user.accounts:
-                if account.account_number == int(user_input):
-                    self.paybill_account = account
-
-                    self.state = states.awaitReciever
-                    return SuccessMessages.enter_receiver_code
+            self.paybill_account = self.paybill_user.getAccount(int(user_input))
                     
-            
-            self.state = states.transactionExit
-            return ErrorMessages.account_not_found
+            # ask for the receiver code
+            self.state = states.awaitReciever
+            return SuccessMessages.enter_receiver_code
 
         
         if self.state == states.awaitReciever:
 
+            # check if the user selected a valid company to pay bills to
             for code, name in PAYBILL_COMPANIES.items():
 
                 if user_input == code.lower() or user_input == name.lower():
+                    # match found, update receiver index and ask for the amount to pay
                     self.receiver_index = code
-                    break
+                    self.state = states.awaitAmount
+                    return SuccessMessages.enter_amount
 
-            else:
-                self.state = states.transactionExit
-                return ErrorMessages.invalid_receiver_code
-                    
-            self.state = states.awaitAmount
-            return SuccessMessages.enter_amount
+            # exit w/ error message if there was no receiver code match
+            self.state = states.transactionExit
+            return ErrorMessages.invalid_receiver_code
         
 
         if self.state == states.awaitAmount:
@@ -112,7 +107,7 @@ class PaybillManager(TransactionManager):
                 # convert user input to int
                 amount = MoneyParser.stringToInt(user_input)
 
-                # make sure this wont exceed pill payment cap
+                # make sure this wont exceed bill payment cap
                 if self.paybill_user.amount_paid_in_bills + amount > MAX_PAYBILL_AMOUNT:
 
                     self.state = states.transactionExit
@@ -133,6 +128,7 @@ class PaybillManager(TransactionManager):
                     misc=self.receiver_index
                 )
 
+                # exit successfully
                 self.state = states.transactionExit
                 return SuccessMessages.transaction_success
 
@@ -142,11 +138,6 @@ class PaybillManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
 
+
+        self.state = states.transactionExit
         return ErrorMessages.state_machine_failure
-
-
-    def isComplete(self):
-        return self.state == states.transactionExit
-
-    def getUser(self):
-        return self.user

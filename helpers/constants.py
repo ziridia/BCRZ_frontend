@@ -24,6 +24,9 @@ TRANSFER_IN_MSG:str = "IN"
 CURRENT_BANK_ACCOUNTS:str = "CurrentBankAccounts"
 DAILY_TRANSACTION_LOG:str = "dailyTransactionLog.txt"
 
+ADMIN:str = "admin"
+STANDARD:str = "standard"
+
 TRANSACTION_LOG_LENGTH:int = 41
 
 PAYBILL_COMPANIES = {
