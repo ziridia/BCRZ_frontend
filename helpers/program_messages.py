@@ -44,6 +44,8 @@ class ErrorMessages:
     # login specific
     invalid_session_type:str = "error: invalid session type"
     
+    # paybill specific
+    invalid_receiver_code:str = "error: invalid receiver code"
 
 class SuccessMessages:
 
@@ -81,3 +83,6 @@ class SuccessMessages:
 
     # deposit specific
     deposit_success:str = "deposit successful"
+
+    # paybill specific
+    enter_receiver_code:str = "enter receiver code"

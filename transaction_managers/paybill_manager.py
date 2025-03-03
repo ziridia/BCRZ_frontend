@@ -1,8 +1,19 @@
 
 from transaction_manager import TransactionManager
+from helpers.transaction_logger import TransactionLogger
+from transaction_managers.login_manager import LoginManager
+
+from helpers.program_messages import ErrorMessages, SuccessMessages
+from helpers.debug_tools import debugPrint
+from helpers.money_parser import MoneyParser
+
+from helpers.constants import RECEIVER_CODE_LENGTH
+
+from helpers.read_in_accounts import USERS
+from account import Account
 
 class states:
-    beforePaybill = 0 # user just typed "withdrawal", display appropriate message
+    beforePaybill = 0 # user just typed "paybill", display appropriate message
     transactionExit = -1 # flag transaction as finished (error or successful completion)
     awaitAccountName = 1
     awaitAccountNumber = 2
@@ -20,68 +31,104 @@ class PaybillManager(TransactionManager):
     def __init__(self, user):
         self.user = user    
         self.state:int = states.beforePaybill
-        self.account_name = None
-        self.account_number = None
-        self.reciever_index = None
-        self.amount = None
-        self.accountBalance = 1000
-        """Logging transactions so they can be printed."""
-        self.transactions = []
+        
+        self.paybill_user = user
+        self.paybill_account = None
+        self.receiver_index = ""
     
 
     def next(self, user_input):
         
+        if self.user == None:
+            return ErrorMessages.not_logged_in
+
         if self.state == states.beforePaybill:
-            self.state = states.awaitAccountName
-            return "Enter account name: "
-        
-        elif self.state == states.awaitAccountName:
-            self.state = states.awaitAccountNumber
-            self.account_name = user_input
-            return "Enter account number: "
-        
-        elif self.state == states.awaitAccountNumber:
-            # Verify if account exists
 
-            # Next Part of the transaction.
-            self.account_number = user_input
-            self.state = states.awaitReciever
-            return "Enter Reciever code (EC, CQ, FI): "
+            if self.user.isAdmin():
 
-        elif self.state == states.awaitReciever:
-            # Verify if Reciever code is a vaild code.
-            if user_input.strip().upper() not in self.Company_Examples:
-                return "Error: Invaild Reciever code"
+                self.state = states.awaitAccountName
+                return SuccessMessages.enter_account_name
             
-            else:
-                # Next part of the transaction.
-                self.reciever_index = user_input.strip().upper()
-                self.state = states.awaitAmount
-                return "Enter amount for bill payment: "
+            self.state = states.awaitAccountNumber
+            return SuccessMessages.enter_account_number
         
-        elif self.state == states.awaitAmount:
-            # Check if amount is valid and proceed with the transaction.
-            try:
-                self.amount = float(user_input)
+        if self.state == states.awaitAccountName:
 
-                if self.amount < 0 or self.amount > 2000:
-                    return f"Error: Invalid amount. Must be between 0 and 2000. Inputed: {self.amount}"
-                
-                # Example for exceeding account balance:
-                if self.amount > self.accountBalance:
-                    return f"Error: Invalid amount. Exceeds account balance. Inputed: {self.amount}"
-                
-                # Recording transaction for logs
-                #transaction = f"03_{self.account_name}_{self.account_number}_{self.amount}_{self.reciever_index}"
-                #self.transactions.append(transaction)
+            # set paybill_user to the user that was entered
+            # if it does not exist, return error message and exit
+             # find user account from users list
+            for name,user in USERS.items():
+                if name == user_input:
+                    self.paybill_user = user
+                    self.state = states.awaitAccountNumber
+                    return SuccessMessages.enter_account_number
+            
+            self.state = states.transactionExit
+            return ErrorMessages.user_not_found
+
+        if self.state == states.awaitAccountNumber:
+
+            # check that the account number is valid
+            if not Account.validateAccountNumber(user_input):
 
                 self.state = states.transactionExit
-                return f"Bill Payment of {self.amount} to {self.Company_Examples[self.reciever_index]} completed."
+                return ErrorMessages.invalid_account_number
 
-            except ValueError:
-                return f"Error: Invalid input. Please enter a numeric value and not {self.amount}"
+            # check that the user has an account with that number
+            for account in self.paybill_user.accounts:
+                if account.account_number == int(user_input):
+                    self.paybill_account = account
+
+                    self.state = states.awaitReciever
+                    return SuccessMessages.enter_receiver_code
+                    
+            
+            self.state = states.transactionExit
+            return ErrorMessages.account_not_found
+
         
-        return "error: state machine is not exiting properly"
+        if self.state == states.awaitReciever:
+
+            if len(user_input) != RECEIVER_CODE_LENGTH:
+
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_receiver_code
+            
+            self.receiver_index = user_input
+        
+            self.state = states.awaitAmount
+            return SuccessMessages.enter_amount
+        
+
+        if self.state == states.awaitAmount:
+
+            
+            try:
+                # convert user input to int
+                amount = MoneyParser.stringToInt(user_input)
+
+                # take users money
+                self.paybill_account.updateBalance(-amount)
+
+                # log transaction
+                TransactionLogger.writeTransaction(
+                    TransactionLogger.codes.paybill,
+                    self.paybill_user.name,
+                    self.paybill_account.account_number,
+                    amount,
+                    misc=self.receiver_index
+                )
+
+                self.state = states.transactionExit
+                return SuccessMessages.transaction_success
+                
+            except Exception as e:
+                
+                debugPrint(e)
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_amount
+
+        return ErrorMessages.state_machine_failure
 
 
     def isComplete(self):
