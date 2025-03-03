@@ -1,9 +1,14 @@
 
-
 from transaction_manager import TransactionManager
+from helpers.program_messages import ErrorMessages, SuccessMessages
+from helpers.read_in_accounts import USERS
+from helpers.transaction_logger import TransactionLogger
+from helpers.debug_tools import debugPrint
+from helpers.money_parser import MoneyParser
+from account import Account
 
 class states:
-    beforeDeposit = 0 # user just typed "withdrawal", display appropriate message
+    beforeDeposit = 0 # user just typed "deposit", display appropriate message
     transactionExit = -1 # flag transaction as finished (error or successful completion)
     awaitAccountName = 1
     awaitAccountNumber = 2
@@ -15,43 +20,89 @@ class DepositManager(TransactionManager):
     def __init__(self, user):
         self.user = user    
         self.state:int = states.beforeDeposit
-        self.account_name = None
-        self.account_number = None
-        self.amount = None
-        self.deposit = []
-        self.accountBalance = 1000
+        self.depositUser = user
+        self.depositAccount = None
 
     def next(self, user_input):
 
         if self.state == states.beforeDeposit:
-            self.state = states.awaitAccountName
-            return "Enter Account name: "
-        
-        elif self.state == states.awaitAccountName:
+            
+            if self.user.isAdmin():
+                self.state = states.awaitAccountName
+                return SuccessMessages.enter_account_name
+            
             self.state = states.awaitAccountNumber
-            self.account_name = user_input
-            return "Enter Account Number: "
+            return SuccessMessages.enter_account_number
+        
+        if self.state == states.awaitAccountName:
+
+            # check if user exists
+            for name,user in USERS.items():
+
+                if name == user_input:
+                    self.depositUser = user
+                    break
+            else:
+
+                self.state = states.transactionExit
+                return ErrorMessages.user_not_found
+
+            # ask for account number
+            self.state = states.awaitAccountNumber
+            return SuccessMessages.enter_account_number
         
         elif self.state == states.awaitAccountNumber:
+
+            # check if account exists for this user
+            # check that the account number is a valid format
+            if not Account.validateAccountNumber(user_input):
+
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_account_number
+
+            # validate that the name-number pair exists
+            for account in self.depositUser.accounts:
+
+                if account.account_number == int(user_input):
+                    self.depositAccount = account
+                    break
+            else:
+
+                self.state = states.transactionExit
+                return ErrorMessages.account_not_found
+
+            # ask for amount to deposit            
             self.state = states.awaitAmount
-            self.account_number = user_input
-            return "Enter amount to be deposited: "
+            return SuccessMessages.enter_amount
         
         elif self.state == states.awaitAmount:
             try:
-                self.amount = float(user_input)
+                # convert to int
+                amount = MoneyParser.stringToInt(user_input)
 
-                # proceed with deposit
+                # check that its positive
+                if amount <= 0:
+                    self.state = states.transactionExit
+                    return ErrorMessages.invalid_amount
 
-                self.accountBalance += self.amount
+                # update account balance
+                self.depositAccount.updateBalance(amount)
 
-                #transfer = f"04_{self.account_name}_{self.account_number}_{self.amount}"
-                #self.deposit.append(transfer)
+                # write transaction to file
+                TransactionLogger.writeTransaction(
+                    TransactionLogger.codes.deposit,
+                    self.depositUser.name,
+                    self.depositAccount.account_number,
+                    amount
+                )
 
                 self.state = states.transactionExit
-                return f"Successfully deposited {self.amount}. New account balance: {self.accountBalance}"
-            except ValueError:
-                return f"Error: Invalid input. Please enter a numeric value and not {self.amount}"
+                return SuccessMessages.deposit_success
+
+            except Exception as e:
+                debugPrint(e)
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_amount
         
         return "error: state machine is not exiting properly"
 

@@ -78,3 +78,6 @@ class SuccessMessages:
 
     # disable specific
     account_disabled:str = "account disabled"
+
+    # deposit specific
+    deposit_success:str = "deposit successful"
