@@ -2,5 +2,8 @@ select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-error: account has been marked as disabled or deleted and cannot change plans.
+account disabled
+enter account name
+enter account number
+error: account is disabled
 logged out

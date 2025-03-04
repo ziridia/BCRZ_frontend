@@ -1,5 +1,8 @@
 login
 admin
+disable
+John Doe
+00001
 changeplan
 John Doe
 00001
