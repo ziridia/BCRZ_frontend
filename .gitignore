@@ -6,3 +6,4 @@ dailyTransactionLog.txt
 *.pyc
 */pycache/
 *.test
+testing/reports/*
