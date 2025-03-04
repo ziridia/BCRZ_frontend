@@ -2,7 +2,7 @@ select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-enter company which the bill will be paid to (EC, CQ, FI)
-enter amount to pay
-error: insufficent funds
+enter receiver code
+enter amount
+error: insufficient funds
 logged out

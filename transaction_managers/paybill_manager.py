@@ -108,16 +108,23 @@ class PaybillManager(TransactionManager):
                 amount = MoneyParser.stringToInt(user_input)
 
                 # make sure this wont exceed bill payment cap
-                if self.paybill_user.amount_paid_in_bills + amount > MAX_PAYBILL_AMOUNT:
+                # only applies when its not an admin paying
+                if not self.user.isAdmin() and self.paybill_user.amount_paid_in_bills + amount > MAX_PAYBILL_AMOUNT:
 
                     self.state = states.transactionExit
-                    return ErrorMessages.invalid_amount
+                    return ErrorMessages.bill_payment_too_high
                 
+                # make sure user has enough money
+                if self.paybill_account.balance < amount:
+
+                    self.state = states.transactionExit
+                    return ErrorMessages.insufficient_funds
                 # take users money
                 self.paybill_account.updateBalance(-amount)
 
                 # update the bill payment amount for the user
-                self.paybill_user.amount_paid_in_bills += amount
+                if not self.user.isAdmin():
+                    self.paybill_user.amount_paid_in_bills += amount
 
                 # log transaction
                 TransactionLogger.writeTransaction(
@@ -130,7 +137,7 @@ class PaybillManager(TransactionManager):
 
                 # exit successfully
                 self.state = states.transactionExit
-                return SuccessMessages.transaction_success
+                return SuccessMessages.bill_paid
 
             except Exception as e:
                 

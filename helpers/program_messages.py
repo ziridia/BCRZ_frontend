@@ -52,6 +52,7 @@ class ErrorMessages:
 
     # paybill specific
     invalid_receiver_code:str = "error: invalid receiver code"
+    bill_payment_too_high:str = "error: max bill payment per session is $2000"
 
     # create specific
     account_already_exists:str = "error: account already exists"
@@ -99,3 +100,4 @@ class SuccessMessages:
 
     # paybill specific
     enter_receiver_code:str = "enter receiver code"
+    bill_paid:str = "bill paid"

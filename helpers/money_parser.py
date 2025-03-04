@@ -9,7 +9,7 @@ class MoneyParser:
         __Never__ parse manually
         """
 
-        string = string.strip(" $")
+        string = string.strip(" $").replace(",", "")
 
         return int(float(string)*100)
     
