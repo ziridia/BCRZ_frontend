@@ -56,7 +56,7 @@ class CreateManager(TransactionManager):
                 return ErrorMessages.name_too_long
 
             # check if the name has any special characters
-            if not user_input.isalpha():
+            if not all(x.isalpha() or x.isspace() for x in user_input):
 
                 self.state = states.transactionExit
                 return ErrorMessages.must_be_alpha
