@@ -1,6 +1,7 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-Enter initial balance for the account
-error: Surpassed max limit of initial balance
+enter account number
+enter starting balance
+error: cannot exceed max balance of $999,999.99
 logged out
