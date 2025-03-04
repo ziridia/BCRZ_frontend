@@ -5,6 +5,6 @@ Forest Gump
 00001
 500.00
 withdrawal
-enter account name
-enter account number
+Forest Gump
+00001
 logout

@@ -96,7 +96,7 @@ class CreateManager(TransactionManager):
 
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_account_number
-            
+
             # check that it is not a duplicate
             self.createdAccount = self.createdUser.getAccount(int(user_input))
 
@@ -113,7 +113,7 @@ class CreateManager(TransactionManager):
 
             # disable account
             # we don't need to update the balance here because transactions cannot occur on it
-            self.createdAccount.disable()
+            self.createdAccount.isDisabled = True
 
             # assign account to the user
             self.createdUser.addAccount(self.createdAccount)
