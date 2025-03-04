@@ -129,9 +129,13 @@ class CreateManager(TransactionManager):
                 balance:int = MoneyParser.stringToInt(user_input)
 
                 debugPrint(f"{type(balance)}, {balance}")
-                if balance < 0 or balance > MAX_BALANCE:
+                if balance > MAX_BALANCE:
+                    self.state = states.transactionExit
                     return ErrorMessages.exceed_max_balance
-                
+                elif balance < 0:
+                    self.state = states.transactionExit
+                    return ErrorMessages.amount_cannot_be_negative
+
                 # create transaction logging the creation of the account
                 TransactionLogger.writeTransaction(
                     TransactionLogger.codes.create,

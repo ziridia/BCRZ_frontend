@@ -34,6 +34,8 @@ class ErrorMessages:
 
     account_disabled:str = "error: account is disabled"
 
+    amount_cannot_be_negative:str = "error: amount cannot be negative"
+
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 
