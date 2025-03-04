@@ -4,5 +4,6 @@ enter account name
 enter account number
 account disabled
 enter account name
+enter account number
 error: account is disabled
 logged out

@@ -1,5 +1,0 @@
-login
-admin
-disable
-John Doe
-logout

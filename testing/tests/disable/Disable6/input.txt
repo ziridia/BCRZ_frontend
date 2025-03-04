@@ -5,5 +5,5 @@ John Doe
 00001
 disable
 John Doe
-0001
+00001
 logout

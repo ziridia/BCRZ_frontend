@@ -5,5 +5,5 @@ enter account number
 account disabled
 enter account name
 enter account number
-account already disabled
+error: account is disabled
 logged out
