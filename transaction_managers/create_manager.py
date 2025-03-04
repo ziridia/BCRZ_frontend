@@ -55,6 +55,12 @@ class CreateManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.name_too_long
 
+            # check if the name has any special characters
+            if not user_input.isalpha():
+
+                self.state = states.transactionExit
+                return ErrorMessages.must_be_alpha
+
             # validate that the name is unique
             # specification does not say the name needs to be unique
             # does this mean that a person doesn't necessarily have multiple accounts under their name

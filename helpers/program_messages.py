@@ -53,6 +53,7 @@ class ErrorMessages:
 
     # create specific
     account_already_exists:str = "error: account already exists"
+    must_be_alpha:str = "error: name must be alphabetic"
 
     
 

@@ -1,6 +1,6 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-error: Special Characters not allowed in name
+error: name must be alphabetic
 error: unknown command
 logged out
