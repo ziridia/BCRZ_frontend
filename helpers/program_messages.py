@@ -12,7 +12,7 @@ language localization, should the spec change to require it
 class ErrorMessages:
 
     not_logged_in:str = "error: not logged in"
-    user_not_found:str = "error: user does not exist"
+    user_not_found:str = "error: account holder does not exist"
     account_not_found:str = "error: account does not exist"
     invalid_account_number:str = "error: invalid account number"
 
