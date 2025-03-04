@@ -43,7 +43,7 @@ class TransactionLogger:
             raise ValueError("account name must be between 1 and 20 characters long inclusive") 
 
         # add padding to the right side of the string to make it 20 characters long
-        transaction += f" {account_name.ljust(MAX_ACCOUNT_NAME_LENGTH)}"
+        transaction += f" {account_name.ljust(MAX_ACCOUNT_NAME_LENGTH).upper()}"
 
         # verify account number is non-negative and <= 99999
         if account_number < 0 or account_number > MAX_ACCOUNT_NUMBER:
