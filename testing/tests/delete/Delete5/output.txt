@@ -4,5 +4,6 @@ enter account name
 enter account number
 account deleted
 enter account name
-error: account is deleted
+enter account number
+error: account does not exist
 logged out
