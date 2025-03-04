@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 enter account name
 login successful
-error: insufficient permission
+error: insufficient permissions
 logged out

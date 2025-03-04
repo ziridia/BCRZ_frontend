@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-error: the name exceeds the max limit
+error: account name must be between 1 and 20 characters long
 logged out
