@@ -1,6 +1,6 @@
 login
 standard
-paybill
 John Doe
+paybill
 00255
 logout

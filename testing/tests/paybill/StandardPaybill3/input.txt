@@ -1,10 +1,12 @@
 login
 standard
+Rich
 paybill
-John Doe
-00001
+00002
 EC
 1000
+paybill
+00002
 EC
 1500
 logout

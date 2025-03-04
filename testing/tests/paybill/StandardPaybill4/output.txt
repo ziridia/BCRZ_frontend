@@ -1,6 +1,6 @@
 select desired session type (admin, standard)
-login successful
 enter account name
+login successful
 enter account number
-error: invalid account number
+error: account does not exist
 logged out

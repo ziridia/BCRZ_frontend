@@ -1,7 +1,7 @@
 login
 standard
-paybill
 Rich
+paybill
 00002
 EC
 2000

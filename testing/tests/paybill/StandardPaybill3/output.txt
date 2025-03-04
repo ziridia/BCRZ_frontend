@@ -1,10 +1,12 @@
 select desired session type (admin, standard)
-login successful
 enter account name
+login successful
 enter account number
-enter company which the bill will be paid to (EC, CQ, FI)
-enter amount to pay
-payment successful
-enter amount to pay
-error: payment exceeds maximum in current session 
+enter receiver code
+enter amount
+bill paid
+enter account number
+enter receiver code
+enter amount
+error: max bill payment per session is $2000
 logged out

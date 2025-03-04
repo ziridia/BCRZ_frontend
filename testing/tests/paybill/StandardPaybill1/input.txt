@@ -1,7 +1,7 @@
 login
 standard
-paybill
 John Doe
+paybill
 00001
 EC
 500
