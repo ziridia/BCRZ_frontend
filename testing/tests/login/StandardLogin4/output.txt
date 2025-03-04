@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
-logged in
+login successful
 enter account name
 enter account number
 account deleted

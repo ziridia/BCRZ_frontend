@@ -4,6 +4,7 @@ paybill
 deposit
 create
 login
+standard
 John Doe
 logout
 withdrawal
