@@ -1,8 +1,5 @@
-error: must login first
+error: not logged in
 select desired session type (admin, standard)
 enter account name
 login successful
-enter account number
-enter amount to deposit
-error: must deposit a positive amount
 logged out
