@@ -5,7 +5,9 @@ from interface import Interface
 from helpers.read_in_accounts import readInAccounts
 from helpers.debug_tools import debugPrint
 
-from helpers.constants import CURRENT_BANK_ACCOUNTS, DAILY_TRANSACTION_LOG
+from helpers.constants import MutableGlobals
+
+from helpers.transaction_logger import TransactionLogger
 
 """
 This is a CLI banking program, that handles various transactions including withdrawals, deposits, and transfers. 
@@ -19,8 +21,6 @@ All commands are to be one word. Additional steps of a command will be inputted 
 """
 
 def main():
-    global CURRENT_BANK_ACCOUNTS
-    global DAILY_TRANSACTION_LOG
     """
     This should handle looping asking for user input, and pass the raw input to the user, and 
     print any output given by the interface class
@@ -33,18 +33,21 @@ def main():
         for arg in sys.argv[1:]:
             
             if arg.startswith("accounts="):
-                CURRENT_BANK_ACCOUNTS = arg[9:]
-                debugPrint(f"Updated current bank accounts path to {CURRENT_BANK_ACCOUNTS}")
+                MutableGlobals.CURRENT_BANK_ACCOUNTS = arg[9:]
+                debugPrint(f"Updated current bank accounts path to {MutableGlobals.CURRENT_BANK_ACCOUNTS}")
                 continue
 
             elif arg.startswith("log="):
-                DAILY_TRANSACTION_LOG = arg[4:]
-                debugPrint(f"Updated daily transaction log path to {DAILY_TRANSACTION_LOG}")
+                MutableGlobals.DAILY_TRANSACTION_LOG = arg[4:]
+                debugPrint(f"Updated daily transaction log path to {MutableGlobals.DAILY_TRANSACTION_LOG}")
                 continue
 
             else:
                 print(f"unknown parameter {arg}. Parameters must start with `accounts=` or `log=`")
                 return
+
+    # wipe transaction log file
+    TransactionLogger.wipeTransactions()
 
     output:str = ""
     while output != "exit":

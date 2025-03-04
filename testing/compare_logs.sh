@@ -1,16 +1,15 @@
 #!/bin/bash
 
 # Check if the correct number of arguments is provided
-if [[ $# -ne 5 ]]; then
-  echo "Usage: $0 <prog_output> <expected_output> <input file> <test name> <report file>"
+if [[ $# -ne 4 ]]; then
+  echo "Usage: $0 <prog_output> <expected_output> <test name> <report file>"
   exit 1
 fi
 
 prog_output=$1
 expected_output=$2
-input_file=$3
-test_name=$4
-report_file_path=$5
+test_name="$3(log)"
+report_file_path=$4
 
 # Check if the necessary files exist
 if [[ ! -f "$prog_output" || ! -f "$expected_output" ]]; then
@@ -21,13 +20,13 @@ fi
 # set flag for whether there were any failures
 passed=1
 
-while IFS=$'\t' read -r prog_line expected_line input_line; do
+while IFS=$'\t' read -r prog_line expected_line; do
   # If the lines don't match, print them side by side
   if [[ "$prog_line" != "$expected_line" ]]; then
-    echo -e "$test_name | fail | $prog_line | $expected_line | $input_line"  >> "$report_file_path"
+    echo "$test_name | fail | $prog_line | $expected_line"  >> "$report_file_path"
     passed=0
   fi
-done < <(paste <(tail -n +4 "$prog_output") "$expected_output" "$input_file")
+done < <(paste <(tail -n +0 "$prog_output") "$expected_output")
 
 # Check the final value of 'passed' after the loop
 if [[ $passed -eq 1 ]]; then

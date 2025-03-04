@@ -1,5 +1,5 @@
 
-from helpers.constants import DAILY_TRANSACTION_LOG, MAX_ACCOUNT_NAME_LENGTH, MAX_ACCOUNT_NUMBER, MAX_BALANCE, MISC_FIELD_LENGTH, TRANSACTION_LOG_LENGTH
+from helpers.constants import MutableGlobals, MAX_ACCOUNT_NAME_LENGTH, MAX_ACCOUNT_NUMBER, MAX_BALANCE, MISC_FIELD_LENGTH, TRANSACTION_LOG_LENGTH
 
 class TransactionLogger:
 
@@ -22,7 +22,7 @@ class TransactionLogger:
         should never be run again afterwards
         """
 
-        transaction_file = open(DAILY_TRANSACTION_LOG, "w")
+        transaction_file = open(MutableGlobals.DAILY_TRANSACTION_LOG, "w")
         transaction_file.close()
 
     def writeTransaction(transaction_code:int, account_name:str, account_number:int, amount:int, misc:str = "  "):
@@ -70,7 +70,7 @@ class TransactionLogger:
             raise Exception(f"transaction log length is not {TRANSACTION_LOG_LENGTH}. Something went wrong")
 
         # append the transaction to file
-        transaction_file = open(DAILY_TRANSACTION_LOG, "a")
+        transaction_file = open(MutableGlobals.DAILY_TRANSACTION_LOG, "a")
 
         transaction_file.write(transaction + "\n")
         

@@ -1,0 +1,65 @@
+
+recursively go through all directories in the testing/tests directory.
+
+Once a directory with `input.txt`, `output.txt`, and `transaction_log.txt` are found, the script should
+
+ - run the testing script with `input.txt` as the input and save the program output to `output.test`
+   * the transaction log should also be saved to `transaction_log.test`
+
+ - run the comparison script, which will save any failures to the test report document (more details below)
+
+ - repeat the last two steps until all directories have been traversed
+
+
+testing script details:
+    the program should be run, and the program inputs stored in `input.txt` should be fed into the program
+
+    all program command line outputs should be saved to `output.test`
+
+    the script should specify the save path for the transaction log to be the same directory as the test, with a file name of `transaction_log.test`
+
+
+comparison script details:
+
+    This will compare the `output.txt` file and the `output.test` file in each directory.
+
+    any lines that do not match will be saved as a list in memory
+
+    if there are any mismatched lines, the test will be flagged as failed
+
+    after the comparison of all lines has been completed, all output should be appended to a report file
+
+
+report file details:
+
+    Expected format:
+        Path            pass/fail   input       actual output       expected output
+        create/Create1  pass
+        create/Create2  fail        john doe    user not found      enter account number
+                                    00001       unknown command     enter balance
+                                    99999.99    unknown command     account created
+
+    I expect getting this to be formatted properly will not be realistic, so having proper tab spacing is less important.
+    stating the path every time too, and pass/fail is also acceptable.
+
+    if a test passes all line comparisons, the report should just state that the test passed and leave it at that
+
+    if a test fails anywhere, it should state that the test as a whole failed, and print all lines that mismatched
+    any lines that match should not be saved to the report file
+
+
+pseudocode:
+
+for all directories and subdirectories:
+
+    if directory does not contain `input.txt`, `output.txt`, and `transaction_log.txt`:
+        continue
+    
+    // feed the script the input file, and the output directory to save the program output and log file to
+    test_program(input.txt, output_directory)
+
+    // compare the test output to the actual output
+    compare(output.test, output.txt, path_to_report_file)
+
+    compare(transaction_log.test, transaction_log.txt, path_to_report_file)
+

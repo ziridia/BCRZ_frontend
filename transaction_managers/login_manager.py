@@ -1,5 +1,5 @@
 
-from helpers.read_in_accounts import readInAccounts, getUser, USERS
+from helpers.read_in_accounts import readInAccounts, getUser
 from helpers.constants import ADMIN, STANDARD
 from helpers.program_messages import ErrorMessages, SuccessMessages
 
@@ -61,7 +61,7 @@ class LoginManager(TransactionManager):
             name, self.user = getUser(user_input)
             
             # if user doesn't exist, exit with error message
-            if self.user == None:
+            if name == "" or self.user == None:
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
             

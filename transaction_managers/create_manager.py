@@ -5,7 +5,7 @@ from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
 from helpers.debug_tools import debugPrint
 from helpers.transaction_logger import TransactionLogger
-from helpers.read_in_accounts import getUser, USERS
+from helpers.read_in_accounts import getUser, getListOfAllUsers
 from helpers.money_parser import MoneyParser
 from helpers.constants import MAX_ACCOUNT_NAME_LENGTH, MAX_BALANCE
 
@@ -73,6 +73,7 @@ class CreateManager(TransactionManager):
                     list() # account list
                 )
                 # add new user to user list
+                USERS = getListOfAllUsers()
                 USERS[user_input] = self.createdUser
 
             debugPrint(f"the account name is called: {self.createdUser.name}")

@@ -36,7 +36,6 @@ class Interface:
 
     user = None
 
-
     def parseInput(input:str):
         """
         This function should parse input as a string, and call the approproate transaction function.

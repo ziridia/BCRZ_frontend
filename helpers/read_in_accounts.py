@@ -2,8 +2,7 @@
 from user import User
 from account import Account
 
-
-
+from helpers.constants import MutableGlobals
 
 
 def createAccountFromString(account_string:str):
@@ -58,15 +57,24 @@ def readInAccounts(path:str):
 
     return users
 
+# CURRENT_BANK_ACCOUNTS = "CurrentBankAccounts"
+# USERS = readInAccounts("CurrentBankAccounts")
+USERS = None
 
-USERS = readInAccounts("CurrentBankAccounts")
+def getListOfAllUsers():
+    global USERS
+
+    if USERS == None:
+        USERS = readInAccounts(MutableGlobals.CURRENT_BANK_ACCOUNTS)
+    
+    return USERS
 
 def getUser(user_name:str):
     """
     checks current bank accounts, and returns username, user object
     or "", None depending on whether the user exists
     """
-
+    USERS = getListOfAllUsers()
     if user_name in USERS:
         return user_name, USERS[user_name]
     

@@ -5,3 +5,4 @@
 dailyTransactionLog.txt
 *.pyc
 */pycache/
+*.test
