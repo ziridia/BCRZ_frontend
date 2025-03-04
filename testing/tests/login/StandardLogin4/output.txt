@@ -6,4 +6,4 @@ account deleted
 logged out
 select desired session type (admin, standard)
 enter account name
-error: account does not exist
+error: account holder does not exist

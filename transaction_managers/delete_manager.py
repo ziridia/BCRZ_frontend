@@ -2,7 +2,7 @@
 
 from transaction_manager import TransactionManager
 from helpers.program_messages import ErrorMessages, SuccessMessages
-from helpers.read_in_accounts import getUser
+from helpers.read_in_accounts import getUser, getListOfAllUsers
 from helpers.transaction_logger import TransactionLogger
 from helpers.debug_tools import debugPrint
 from account import Account
@@ -83,6 +83,17 @@ class DeleteManager(TransactionManager):
 
             # flag the account as deleted
             account.isDeleted = True
+
+            # check if all the users accounts are deleted
+            # if they are, remove the user from the user list
+            for user_account in self.deleteUser.accounts:
+                if not user_account.isDeleted:
+                    break
+            else:
+                # remove the user from the user list
+                USERS = getListOfAllUsers()
+                del USERS[self.deleteUser.name]
+                debugPrint(f"deleting {self.deleteUser.name} from user list because it has no more accounts")
 
             # exit transaction successfully
             self.state = states.transactionExit
