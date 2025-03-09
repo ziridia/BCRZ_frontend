@@ -12,7 +12,7 @@ language localization, should the spec change to require it
 class ErrorMessages:
 
     not_logged_in:str = "error: not logged in"
-    user_not_found:str = "error: account holder does not exist"
+    user_not_found:str = "error: account does not exist"
     account_not_found:str = "error: account does not exist"
     invalid_account_number:str = "error: invalid account number"
 
@@ -67,6 +67,7 @@ class SuccessMessages:
     enter_account_number:str = "enter account number"
 
     transaction_success:str = "transaction successful"
+    transfer_success:str = "transfer successful"
 
     enter_amount:str = "enter amount"
 
@@ -76,7 +77,10 @@ class SuccessMessages:
 
     # Transfer specific
     enter_transfer_to_account_name:str = "enter account name to transfer to"
-    
+    enter_transfer_from_account_number:str = "enter account number to transfer from"
+    enter_transfer_to_account_number:str = "enter account number to transfer to"
+    enter_transfer_amount:str = "enter amount to transfer"
+
     # logout specific
     logged_out:str = "logged out"
 
