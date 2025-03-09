@@ -5,5 +5,5 @@ enter account number to transfer from
 enter account name to transfer to
 enter account number to transfer to
 enter amount to transfer
-error: must be numeric
+error: invalid amount
 logged out

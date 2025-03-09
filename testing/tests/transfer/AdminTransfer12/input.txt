@@ -3,7 +3,7 @@ admin
 transfer
 John Doe
 00001
-Rich
+Broke
 00004
 100
 logout

@@ -1,3 +1,6 @@
+Welcome to Banking System
+
+type `login` to continue
 select desired session type (admin, standard)
 login successful
 enter account name
@@ -5,5 +8,5 @@ enter account number to transfer from
 enter account name to transfer to
 enter account number to transfer to
 enter amount to transfer
-error: account receiving transfer would exceed limit - transfer failed
+error: cannot exceed daily transfer cap of $1000.00
 logged out

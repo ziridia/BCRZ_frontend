@@ -1,9 +1,13 @@
+Welcome to Banking System
+
+type `login` to continue
 select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-account disabled
+account deleted
 enter account name
 enter account number to transfer from
-error: account is disabled
+enter account name to transfer to
+error: account does not exist
 logged out
