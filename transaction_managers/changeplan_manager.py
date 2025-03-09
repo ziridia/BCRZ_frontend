@@ -1,5 +1,4 @@
 
-
 from transaction_manager import TransactionManager
 
 from helpers.program_messages import ErrorMessages, SuccessMessages
@@ -13,7 +12,16 @@ class states:
     awaitAccountName = 1 # user just entered account name, ask for account number
     awaitAccountNumber = 2 # 
     transactionExit = -1 # flag transaction as finished (error or successful completion)
+    
+ # Valid characters
+def validate_input(user_input):
+    valid_characters = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
+    # Check if the user_input contains only valid characters
+    if all(char in valid_characters for char in user_input):
+        return True
+    else:
+        return False
 
 class ChangeplanManager(TransactionManager):
 
@@ -36,7 +44,7 @@ class ChangeplanManager(TransactionManager):
             # if the user isn't admin, return error message
             if not self.user.isAdmin():
                 self.state = states.transactionExit
-                return ErrorMessages.insufficient_permissions
+                return ErrorMessages.disallow_change
 
             # ask for the account name
             self.state = states.awaitAccountName
@@ -46,11 +54,19 @@ class ChangeplanManager(TransactionManager):
             
             # get the user object
             user_name, self.changeplan_user = getUser(user_input)
-
+            
+            if not validate_input(user_input):
+                self.state = states.transactionExit
+                return ErrorMessages.invalid_char
+            
             # if a user wasn't found, return error message
-            if user_name == "" or self.changeplan_user == None:
+            if self.changeplan_user == None:
                 self.state = states.transactionExit
                 return ErrorMessages.user_not_found
+            
+            if user_name == "":
+                self.state = states.transactionExit
+                return ErrorMessages.no_input
             
             # ask for account number
             self.state = states.awaitAccountNumber
@@ -62,6 +78,15 @@ class ChangeplanManager(TransactionManager):
             try:
 
                 account = TransactionManager.getAccountFromUser(self.changeplan_user, user_input)
+                
+                if account is None:
+                    self.state = states.transactionExit
+                    return ErrorMessages.no_match
+                
+                # Check transaction log for a previously changed plan transaction
+                if TransactionLogger.hasTransaction(self.changeplan_user.name, account.account_number, TransactionLogger.codes.changeplan):
+                    self.state = states.transactionExit
+                    return ErrorMessages.previously_changed_to_student
             
             except Exception as e:
 
@@ -70,9 +95,11 @@ class ChangeplanManager(TransactionManager):
             
             # No way to know if an account has a student plan from the current bank accounts file
             # ignore this check for the time being and always log the change
-            # if not account.isStudentPlan:
-            #     self.state = states.transactionExit
-            #     return ErrorMessages.already_non_student
+            if not account.isStudentPlan:
+                self.state = states.transactionExit
+                print(ErrorMessages.already_non_student)
+            else:
+                return ErrorMessages.changed_to_non_student
 
             # log the transaction
             try:
@@ -85,7 +112,7 @@ class ChangeplanManager(TransactionManager):
 
                 account.isStudentPlan = False
             except Exception as e:
-                debugPrint(e)
+                print(e)
 
                 self.state = states.transactionExit
                 return ErrorMessages.failed_to_log_transaction

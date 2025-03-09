@@ -35,6 +35,8 @@ class ErrorMessages:
     account_disabled:str = "error: account is disabled"
 
     amount_cannot_be_negative:str = "error: amount cannot be negative"
+    
+    no_input:str = "error: no input provided"
 
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
@@ -44,7 +46,12 @@ class ErrorMessages:
     cannot_transfer_to_yourself:str = "error: cannot transfer to the same account as is being transferred from"
 
     # changeplan specific
-    already_non_student:str = "error: account plan is already not a student plan"
+    already_non_student:str = "error: Account plan is already not a student plan"
+    changed_to_non_student:str = "Account payment plan successfully changed from student to non-student."
+    invalid_char:str = "error: special characters not allowed in name"
+    disallow_change:str = "error: standard user not allowed to changeplan."
+    no_match:str = "error: Account number does not match with account name."
+    previously_changed_to_student:str = "error: account payment plan already changed from student to non-student."
 
     # login specific
     invalid_session_type:str = "error: invalid session type"
