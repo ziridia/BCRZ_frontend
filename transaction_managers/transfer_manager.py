@@ -77,7 +77,7 @@ class TransferManager(TransactionManager):
             self.transfer_out_user = user
 
             self.state = states.awaitAccountNumber
-            return SuccessMessages.enter_account_number
+            return SuccessMessages.enter_transfer_from_account_number
         
 
         elif self.state == states.awaitAccountNumber:
@@ -120,7 +120,7 @@ class TransferManager(TransactionManager):
             # set transfer to user, ask for account number
             self.transfer_in_user = user
             self.state = states.awaitSecondAccountNumber
-            return SuccessMessages.enter_account_number
+            return SuccessMessages.enter_transfer_to_account_number
 
 
         if self.state == states.awaitSecondAccountNumber:
@@ -142,7 +142,7 @@ class TransferManager(TransactionManager):
 
             # Next part of the Transfer.
             self.state = states.awaitAmount
-            return SuccessMessages.enter_amount
+            return SuccessMessages.enter_transfer_amount
         
 
         if self.state == states.awaitAmount:
@@ -219,7 +219,7 @@ class TransferManager(TransactionManager):
                 return ErrorMessages.failed_to_log_transaction
 
             self.state = states.transactionExit
-            return SuccessMessages.transaction_success
+            return SuccessMessages.transfer_success
 
 
         self.state = states.transactionExit
