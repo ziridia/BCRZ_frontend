@@ -2,12 +2,12 @@ login
 standard
 Rich
 transfer
-00001
+00002
 Broke
 00004
 800
 transfer
-00001
+00002
 Broke
 00004
 800

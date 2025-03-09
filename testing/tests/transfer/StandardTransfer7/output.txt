@@ -1,7 +1,7 @@
 select desired session type (admin, standard)
 enter account name
 login successful
-enter account number to transfer from
+enter account number
 enter account name to transfer to
 enter account number to transfer to
 enter amount to transfer
