@@ -1,0 +1,294 @@
+Path | pass/fail | actual output | expected output | input
+ChangePlan1/ | fail | transaction successful | Account payment plan successfully changed from student to non-student. | 00001
+ChangePlan1/(log) | fail | 08 JOHN DOE             00001 00000000    | 08 JOHN DOE             00000 00000000   
+ChangePlan10/	 pass
+ChangePlan10/(log)	 pass
+ChangePlan2/ | fail | enter account number | Case sensitivity matters | john doe
+ChangePlan2/ | fail | error: invalid account number | enter account name | John Doe
+ChangePlan2/ | fail | error: unknown command | enter account number | 00001
+ChangePlan2/ | fail | logged out | Account payment plan successfully changed from student to non-student. | logout
+ChangePlan2/ | fail | logged out |  | 
+ChangePlan2/(log) | fail | 00 ADMIN                00000 00000000    | 08 JOHN DOE             00000 00000000   
+ChangePlan2/(log) | fail | 00 ADMIN                00000 00000000    | 
+ChangePlan3/ | fail | transaction successful | Account payment plan successfully changed from student to non-student. | 00001
+ChangePlan3/(log) | fail | 08 JOHN DOE             00001 00000000    | 08 JOHN DOE             00000 00000000   
+ChangePlan4/ | fail | error: account does not exist | error: special characters not allowed in name | Incorrect N@me!
+ChangePlan4/(log)	 pass
+ChangePlan5/ | fail | error: insufficient permissions | error: standard user not allowed to changeplan.  | changeplan
+ChangePlan5/(log)	 pass
+ChangePlan7/ | fail | error: account does not exist | error: Account number does not match with account name. | 00011
+ChangePlan7/(log)	 pass
+ChangePlan8/ | fail | transaction successful | error: account payment plan already changed from student to non-student. | 00001
+ChangePlan8/(log) | fail | 08 JOHN DOE             00001 00000000    | 00 ADMIN                00000 00000000   
+ChangePlan8/(log) | fail | 00 ADMIN                00000 00000000    | 
+ChangePlan9/ | fail | error: account does not exist | error: no input provided |       
+ChangePlan9/(log)	 pass
+Changeplan6/ | fail | error: account does not exist | error: account name does not exist | Wrong Name
+Changeplan6/(log)	 pass
+Create1/	 pass
+Create1/(log)	 pass
+Create10/	 pass
+Create10/(log)	 pass
+Create11/	 pass
+Create11/(log)	 pass
+Create12/	 pass
+Create12/(log)	 pass
+Create2/	 pass
+Create2/(log)	 pass
+Create3/	 pass
+Create3/(log)	 pass
+Create4/	 pass
+Create4/(log)	 pass
+Create5/	 pass
+Create5/(log)	 pass
+Create6/	 pass
+Create6/(log)	 pass
+Create7/	 pass
+Create7/(log)	 pass
+Create8/	 pass
+Create8/(log)	 pass
+Create9/	 pass
+Create9/(log)	 pass
+Delete1/	 pass
+Delete1/(log)	 pass
+Delete2/ | fail | error: account does not exist | error: account holder does not exist | fakeaccount
+Delete2/(log)	 pass
+Delete3/	 pass
+Delete3/(log)	 pass
+Delete4/	 pass
+Delete4/(log)	 pass
+Delete5/ | fail | error: account does not exist | enter account number | John Doe
+Delete5/ | fail | error: unknown command | error: account does not exist | 00001
+Delete5/(log)	 pass
+AdminDeposit1/ | fail | enter amount | enter amount to deposit | 00001
+AdminDeposit1/ | fail | error: invalid amount | error: must deposit a positive amount | 0
+AdminDeposit1/(log)	 pass
+AdminDeposit2/ | fail | error: account does not exist | error: invalid account number | 99999
+AdminDeposit2/ | fail | error: unknown command | error: uknown command | 100
+AdminDeposit2/(log)	 pass
+AdminDeposit3/ | fail | enter amount | enter amount to deposit | 00001
+AdminDeposit3/ | fail | deposit successful | successful deposit | 100
+AdminDeposit3/(log) | fail | 04 JOHN DOE             00001 00010000    | 04 JOHN DOE             00000 00010000   
+AdminDeposit4/ | fail | error: account is disabled | error: account has been disabled | 00001
+AdminDeposit4/(log)	 pass
+AdminDeposit5/ | fail | enter amount | enter amount to deposit | 00001
+AdminDeposit5/ | fail | deposit successful | Successful deposit | 100
+AdminDeposit5/ | fail | enter account name | enter amount to withdraw | withdrawal
+AdminDeposit5/ | fail | error: account does not exist | error: funds deposited in current session cannot be accessed | 350
+AdminDeposit5/ | fail | logged out | logout | logout
+AdminDeposit5/(log)	 pass
+AdminDeposit6/ | fail | enter amount | enter amount to deposit | 00001
+AdminDeposit6/ | fail | error: invalid amount | error: must deposit a positive amount | -100
+AdminDeposit6/(log)	 pass
+AdminDeposit7/ | fail | enter amount | enter amount to deposit | 00001
+AdminDeposit7/ | fail | error: invalid amount | error: account balance cannot exceed $999,999.99 | 999,999.99
+AdminDeposit7/(log)	 pass
+AdminDeposit8/	 pass
+AdminDeposit8/(log)	 pass
+StandardDeposit1/ | fail | error: account does not exist | error: invalid account number | 99999
+StandardDeposit1/ | fail | error: unknown command | error: uknown command | 100
+StandardDeposit1/(log)	 pass
+StandardDeposit2/ | fail | enter account name | login successful | standard
+StandardDeposit2/ | fail | error: account does not exist | enter account name | deposit
+StandardDeposit2/ | fail | error: unknown command | enter account number | John Doe
+StandardDeposit2/ | fail | error: unknown command | error: invalid account number | 99999
+StandardDeposit2/ | fail | error: unknown command | logged out | 100
+StandardDeposit2/ | fail | error: not logged in | logout | 
+StandardDeposit2/(log) | fail | 00 JOHN DOE             00000 00000000    | 
+StandardDeposit3/ | fail | enter amount | enter amount to deposit | 00001
+StandardDeposit3/ | fail | deposit successful | successful deposit | 100
+StandardDeposit3/(log) | fail | 04 JOHN DOE             00001 00010000    | 04 JOHN DOE             00000 00010000   
+StandardDeposit4/ | fail | error: account is disabled | error: account has been disabled | 00001
+StandardDeposit4/(log)	 pass
+StandardDeposit5/ | fail | enter amount | enter amount to deposit | 00001
+StandardDeposit5/ | fail | deposit successful | Successful deposit | 100
+StandardDeposit5/ | fail | enter account number | enter amount to withdraw | withdrawal
+StandardDeposit5/ | fail | error: invalid account number | error: funds deposited in current session cannot be accessed | 350
+StandardDeposit5/ | fail | logged out | logout | logout
+StandardDeposit5/(log)	 pass
+StandardDeposit6/ | fail | error: invalid session type | enter account name | John Doe
+StandardDeposit6/ | fail | error: unknown command | login successful | standard
+StandardDeposit6/ | fail | error: not logged in | enter account number | deposit
+StandardDeposit6/ | fail | error: unknown command | enter amount to deposit | 00001
+StandardDeposit6/ | fail | error: unknown command | error: must deposit a positive amount | -100
+StandardDeposit6/ | fail | error: not logged in | logged out | logout
+StandardDeposit6/(log) | fail | 00 JOHN DOE             00000 00000000    | 
+StandardDeposit7/ | fail | enter amount | enter amount to deposit | 00001
+StandardDeposit7/ | fail | error: invalid amount | error: account balance cannot exceed $999,999.99 | 999,999.99
+StandardDeposit7/(log)	 pass
+Disable1/	 pass
+Disable1/(log)	 pass
+Disable2/ | fail | error: account does not exist | error: account holder does not exist | fakeaccount
+Disable2/(log)	 pass
+Disable3/	 pass
+Disable3/(log)	 pass
+Disable4/	 pass
+Disable4/(log)	 pass
+Disable5/	 pass
+Disable5/(log)	 pass
+Disable6/	 pass
+Disable6/(log)	 pass
+AdminLogin1/	 pass
+AdminLogin1/(log)	 pass
+Login1/	 pass
+Login1/(log)	 pass
+Login2/	 pass
+Login2/(log)	 pass
+StandardLogin1/	 pass
+StandardLogin1/(log)	 pass
+StandardLogin2/ | fail | error: account does not exist | error: account holder does not exist | John Dke
+StandardLogin2/(log)	 pass
+StandardLogin3/	 pass
+StandardLogin3/(log)	 pass
+StandardLogin4/ | fail | error: account does not exist | error: account holder does not exist | John Doe
+StandardLogin4/(log)	 pass
+Logout1/	 pass
+Logout1/(log)	 pass
+Miscellaneous1/	 pass
+Miscellaneous1/(log)	 pass
+AdminPaybill1/	 pass
+AdminPaybill1/(log)	 pass
+AdminPaybill2/	 pass
+AdminPaybill2/(log)	 pass
+AdminPaybill3/ | fail | error: account does not exist | error: account holder does not exist | Jkhn Doe
+AdminPaybill3/(log)	 pass
+StandardPaybill1/	 pass
+StandardPaybill1/(log)	 pass
+StandardPaybill2/	 pass
+StandardPaybill2/(log)	 pass
+StandardPaybill3/	 pass
+StandardPaybill3/(log)	 pass
+StandardPaybill4/	 pass
+StandardPaybill4/(log)	 pass
+StandardPaybill5/	 pass
+StandardPaybill5/(log)	 pass
+AdminTransfer1/	 pass
+AdminTransfer1/(log)	 pass
+AdminTransfer10/	 pass
+AdminTransfer10/(log)	 pass
+AdminTransfer11/	 pass
+AdminTransfer11/(log)	 pass
+AdminTransfer12/ | fail | transfer successful | error: account receiving transfer would exceed limit - transfer failed | 100
+AdminTransfer12/(log) | fail | 02 JOHN DOE             00001 00010000 EX | 00 ADMIN                00000 00000000   
+AdminTransfer12/(log) | fail | 02 BROKE                00004 00010000 IN | 
+AdminTransfer12/(log) | fail | 00 ADMIN                00000 00000000    | 
+AdminTransfer13/	 pass
+AdminTransfer13/(log)	 pass
+AdminTransfer14/ | fail | error: cannot exceed daily transfer cap of $1000.00 | transfer successful | 100,000.00
+AdminTransfer14/(log) | fail | 00 ADMIN                00000 00000000    | 02 RICH                 00001 00080000 EX
+AdminTransfer14/(log) | fail | 02 BROKE                00004 00080000 IN | 
+AdminTransfer14/(log) | fail | 00 ADMIN                00000 00000000    | 
+AdminTransfer15/	 pass
+AdminTransfer15/(log)	 pass
+AdminTransfer16/	 pass
+AdminTransfer16/(log)	 pass
+AdminTransfer17/	 pass
+AdminTransfer17/(log)	 pass
+AdminTransfer2/	 pass
+AdminTransfer2/(log)	 pass
+AdminTransfer3/	 pass
+AdminTransfer3/(log)	 pass
+AdminTransfer4/ | fail | error: cannot exceed daily transfer cap of $1000.00 | error: insufficient funds | 4294967296
+AdminTransfer4/(log)	 pass
+AdminTransfer5/	 pass
+AdminTransfer5/(log)	 pass
+AdminTransfer6/	 pass
+AdminTransfer6/(log)	 pass
+AdminTransfer7/	 pass
+AdminTransfer7/(log)	 pass
+AdminTransfer8/	 pass
+AdminTransfer8/(log)	 pass
+AdminTransfer9/	 pass
+AdminTransfer9/(log)	 pass
+StandardTransfer1/	 pass
+StandardTransfer1/(log)	 pass
+StandardTransfer10/	 pass
+StandardTransfer10/(log)	 pass
+StandardTransfer11/	 pass
+StandardTransfer11/(log)	 pass
+StandardTransfer12/ | fail | transfer successful | error: account receiving transfer would exceed limit - transfer failed | 100
+StandardTransfer12/(log) | fail | 02 JOHN DOE             00001 00010000 EX | 00 JOHN DOE             00000 00000000   
+StandardTransfer12/(log) | fail | 02 RICH                 00002 00010000 IN | 
+StandardTransfer12/(log) | fail | 00 JOHN DOE             00000 00000000    | 
+StandardTransfer13/	 pass
+StandardTransfer13/(log) | fail | 02 RICH                 00002 00080000 EX | 02 RICH                 00001 00080000 EX
+StandardTransfer14/	 pass
+StandardTransfer14/(log)	 pass
+StandardTransfer2/	 pass
+StandardTransfer2/(log)	 pass
+StandardTransfer3/	 pass
+StandardTransfer3/(log)	 pass
+StandardTransfer4/ | fail | error: cannot exceed daily transfer cap of $1000.00 | error: insufficient funds | 4294967296
+StandardTransfer4/(log)	 pass
+StandardTransfer5/ | fail | transfer successful | error: insufficient funds | 250.0001
+StandardTransfer5/(log) | fail | 02 JOHN DOE             00001 00025000 EX | 00 JOHN DOE             00000 00000000   
+StandardTransfer5/(log) | fail | 02 BROKE                00004 00025000 IN | 
+StandardTransfer5/(log) | fail | 00 JOHN DOE             00000 00000000    | 
+StandardTransfer6/	 pass
+StandardTransfer6/(log)	 pass
+StandardTransfer7/	 pass
+StandardTransfer7/(log)	 pass
+StandardTransfer8/	 pass
+StandardTransfer8/(log)	 pass
+StandardTransfer9/	 pass
+StandardTransfer9/(log)	 pass
+AdminWithdrawal1/	 pass
+AdminWithdrawal1/(log)	 pass
+AdminWithdrawal10/ | fail | error: invalid amount | error: amount must be numeric | ABC
+AdminWithdrawal10/(log)	 pass
+AdminWithdrawal11/ | fail | error: insufficient funds | withdrawal successful | 500.01
+AdminWithdrawal11/(log) | fail | 00 ADMIN                00000 00000000    | 01 JOHN DOE             00001 00050001   
+AdminWithdrawal11/(log) | fail | 00 ADMIN                00000 00000000    | 
+AdminWithdrawal12/ | fail | error: account does not exist | enter amount to withdraw | 00001
+AdminWithdrawal12/ | fail | error: unknown command | withdrawal successful | 400.00
+AdminWithdrawal12/ | fail | error: account does not exist | enter amount to withdraw | 00001
+AdminWithdrawal12/ | fail | error: unknown command | withdrawal successful | 400.00
+AdminWithdrawal12/(log) | fail | 00 ADMIN                00000 00000000    | 01 Rich                 00001 00040000   
+AdminWithdrawal12/(log) | fail | 01 Rich                 00001 00040000    | 
+AdminWithdrawal12/(log) | fail | 00 ADMIN                00000 00000000    | 
+AdminWithdrawal13/ | fail | error: account does not exist | error: invalid account name | fakeaccount
+AdminWithdrawal13/(log)	 pass
+AdminWithdrawal2/	 pass
+AdminWithdrawal2/(log)	 pass
+AdminWithdrawal3/	 pass
+AdminWithdrawal3/(log)	 pass
+AdminWithdrawal4/	 pass
+AdminWithdrawal4/(log)	 pass
+AdminWithdrawal5/ | fail | withdrawal successful | error: invalid input | 250.000001
+AdminWithdrawal5/(log) | fail | 01 WITHDRAWAL1          00006 00025000    | 00 ADMIN                00000 00000000   
+AdminWithdrawal5/(log) | fail | 00 ADMIN                00000 00000000    | 
+AdminWithdrawal6/	 pass
+AdminWithdrawal6/(log) | fail | 01 WITHDRAWAL2          00007 00050000    | 01 WITHDRAWAL2          00001 00050000   
+AdminWithdrawal7/ | fail | error: amount must be positive | error: must withdraw a positive amount | 0
+AdminWithdrawal7/(log)	 pass
+AdminWithdrawal8/ | fail | error: amount must be positive | error: must withdraw a positive amount | -100
+AdminWithdrawal8/(log)	 pass
+AdminWithdrawal9/ | fail | error: account does not exist | error: invalid account number | 99999
+AdminWithdrawal9/(log)	 pass
+StandardWithdrawal1/	 pass
+StandardWithdrawal1/(log)	 pass
+StandardWithdrawal10/ | fail | error: invalid amount | error: amount must be numeric | ABC
+StandardWithdrawal10/(log)	 pass
+StandardWithdrawal11/ | fail | error: cannot exceed daily withdrawal cap of $500.00 | error: cannot withdraw more than $500.00 per session | 500.01
+StandardWithdrawal11/(log)	 pass
+StandardWithdrawal12/ | fail | error: account does not exist | enter amount to withdraw | 00001
+StandardWithdrawal12/ | fail | error: unknown command | error: cannot withdraw more than $500.00 per session | 400.00
+StandardWithdrawal12/(log) | fail | 01 RICH                 00002 00040000    | 01 Rich                 00000 00040000   
+StandardWithdrawal12/(log) | fail | 00 RICH                 00000 00000000    | 00 Rich                 00000 00000000   
+StandardWithdrawal2/	 pass
+StandardWithdrawal2/(log)	 pass
+StandardWithdrawal3/	 pass
+StandardWithdrawal3/(log)	 pass
+StandardWithdrawal4/ | fail | error: cannot exceed daily withdrawal cap of $500.00 | error: insufficient funds | 2,147,483,648
+StandardWithdrawal4/(log)	 pass
+StandardWithdrawal5/ | fail | withdrawal successful | error: invalid input | 250.000001
+StandardWithdrawal5/(log) | fail | 01 WITHDRAWAL1          00006 00025000    | 00 WITHDRAWAL1          00000 00000000   
+StandardWithdrawal5/(log) | fail | 00 WITHDRAWAL1          00000 00000000    | 
+StandardWithdrawal6/	 pass
+StandardWithdrawal6/(log) | fail | 01 WITHDRAWAL2          00007 00050000    | 01 WITHDRAWAL2          00001 00050000   
+StandardWithdrawal7/ | fail | error: amount must be positive | error: must withdraw a positive amount | 0
+StandardWithdrawal7/(log)	 pass
+StandardWithdrawal8/ | fail | error: amount must be positive | error: must withdraw a positive amount | -100
+StandardWithdrawal8/(log)	 pass
+StandardWithdrawal9/ | fail | error: account does not exist | error: invalid account number | 99999
+StandardWithdrawal9/(log)	 pass
