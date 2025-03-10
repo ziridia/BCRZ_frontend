@@ -5,5 +5,4 @@ John Doe
 00001
 withdrawal
 John Doe
-00001
 logout
