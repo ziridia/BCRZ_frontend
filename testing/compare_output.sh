@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# this script compares the terminal output of the test and the program
+
 # Check if the correct number of arguments is provided
 if [[ $# -ne 5 ]]; then
   echo "Usage: $0 <prog_output> <expected_output> <input file> <test name> <report file>"
   exit 1
 fi
 
+# set variables based on parameters
 prog_output=$1
 expected_output=$2
 input_file=$3

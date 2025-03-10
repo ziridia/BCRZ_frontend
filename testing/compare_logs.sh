@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# this script compares the log files of the test and the output
+
 # Check if the correct number of arguments is provided
 if [[ $# -ne 4 ]]; then
   echo "Usage: $0 <prog_output> <expected_output> <test name> <report file>"
   exit 1
 fi
 
+# set variables based on program input
 prog_output=$1
 expected_output=$2
 test_name="$3(log)"

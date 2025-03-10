@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# this script recursively travels through all test directories and creates a line in the report file
+# for each test that is run. Report files are saved with the unix epoch appended in /testing/reports
+
 traverse_subdirectories() {
   # Loop through each directory in the current directory
   for dir in */; do
@@ -31,6 +34,7 @@ traverse_subdirectories() {
   done
 }
 
+# set variables
 test_path=$(find "$(pwd)" -maxdepth 1 -type f -name "test.sh")
 compare_output_path=$(find "$(pwd)" -maxdepth 1 -type f -name "compare_output.sh")
 compare_log_path=$(find "$(pwd)" -maxdepth 1 -type f -name "compare_logs.sh")
@@ -48,3 +52,6 @@ echo -e "Path | pass/fail | actual output | expected output | input" > "$report_
 
 # Call the function to start the process
 traverse_subdirectories
+
+# print where the report was saved to
+echo "Report saved to $report_path"
