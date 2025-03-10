@@ -40,7 +40,7 @@ class ErrorMessages:
     no_input:str = "error: no input provided"
 
     # Withdrawal specific
-    daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
+    daily_withdrawal_cap:str = "error: cannot withdraw more than $500.00 per session"
 
     # transfer specific
     daily_transfer_cap:str = "error: cannot transfer more than $1000 per session"

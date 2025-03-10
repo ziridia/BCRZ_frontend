@@ -93,13 +93,13 @@ class WithdrawalManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.amount_must_be_positive
 
-            if self.withdrawal_user.amount_withdrawn + amount > WITHDRAWAL_CAP and not self.user.isAdmin():
-                self.state = states.transactionExit
-                return ErrorMessages.daily_withdrawal_cap
-
             if amount > self.account.balance:
                 self.state = states.transactionExit
                 return ErrorMessages.insufficient_funds
+
+            if self.withdrawal_user.amount_withdrawn + amount > WITHDRAWAL_CAP and not self.user.isAdmin():
+                self.state = states.transactionExit
+                return ErrorMessages.daily_withdrawal_cap
 
             # make sure that this wouldn't eat into deposited amount this session
             if self.account.balance - self.withdrawal_user.amount_deposited < amount:

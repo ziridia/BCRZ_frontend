@@ -1,7 +1,7 @@
 login
 standard
-John Doe
+Rich
 withdrawal
-00001
+00002
 500.01
 logout
