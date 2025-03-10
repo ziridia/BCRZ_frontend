@@ -3,5 +3,5 @@ login successful
 enter account name
 enter account number
 enter amount
-error: account balance cannot exceed $999,999.99
+error: cannot exceed max balance of $999,999.99
 logged out

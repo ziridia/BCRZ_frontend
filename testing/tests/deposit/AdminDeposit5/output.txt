@@ -3,7 +3,9 @@ login successful
 enter account name
 enter account number
 enter amount
-Successful deposit
+deposit successful
+enter account name
+enter account number
 enter amount to withdraw
 error: funds deposited in current session cannot be accessed
-logout
+logged out

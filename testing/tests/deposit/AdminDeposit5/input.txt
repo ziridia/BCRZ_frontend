@@ -5,5 +5,7 @@ John Doe
 00001
 100
 withdrawal
+John Doe
+00001
 350
 logout

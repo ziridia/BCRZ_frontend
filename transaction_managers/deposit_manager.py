@@ -5,6 +5,7 @@ from helpers.read_in_accounts import getUser
 from helpers.transaction_logger import TransactionLogger
 from helpers.debug_tools import debugPrint
 from helpers.money_parser import MoneyParser
+from helpers.constants import MAX_BALANCE
 from account import Account
 
 class states:
@@ -83,6 +84,11 @@ class DepositManager(TransactionManager):
                     self.state = states.transactionExit
                     return ErrorMessages.invalid_amount
 
+                # make sure this wont exceed max bal
+                if self.depositAccount.balance + amount > MAX_BALANCE:
+                    self.state = states.transactionExit
+                    return ErrorMessages.exceed_max_balance
+
                 # update account balance
                 self.depositAccount.updateBalance(amount)
 
@@ -93,6 +99,8 @@ class DepositManager(TransactionManager):
                     self.depositAccount.account_number,
                     amount
                 )
+
+                self.depositUser.amount_deposited += amount
 
                 self.state = states.transactionExit
                 return SuccessMessages.deposit_success

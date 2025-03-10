@@ -86,9 +86,13 @@ class WithdrawalManager(TransactionManager):
                 amount = MoneyParser.stringToInt(user_input)
 
             except:
-
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
+
+            # make sure that this wouldn't eat into deposited amount this session
+            if self.account.balance - self.withdrawal_user.amount_deposited < amount:
+                self.state = states.transactionExit
+                return ErrorMessages.cannot_access_deposited_funds
 
             if amount <= 0:
                 self.state = states.transactionExit

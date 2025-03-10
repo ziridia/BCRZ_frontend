@@ -61,6 +61,8 @@ class ErrorMessages:
     account_already_exists:str = "error: account already exists"
     must_be_alpha:str = "error: name must be alphabetic"
 
+    # deposit specific (sort of)
+    cannot_access_deposited_funds:str = "error: funds deposited in current session cannot be accessed"
     
 
 
