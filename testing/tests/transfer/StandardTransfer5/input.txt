@@ -1,9 +1,0 @@
-login
-standard
-John Doe
-transfer
-00001
-Broke
-00004
-250.0001
-logout

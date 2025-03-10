@@ -162,14 +162,16 @@ class TransferManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.amount_must_be_positive
 
+
+            if amount > self.transfer_out_account.balance:
+                self.state = states.transactionExit
+                return ErrorMessages.insufficient_funds
+
+
             # only do this check if not admin
             if self.transfer_out_user.amount_transferred + amount > TRANSFER_CAP and not self.user.isAdmin():
                 self.state = states.transactionExit
                 return ErrorMessages.daily_transfer_cap
-            
-            if amount > self.transfer_out_account.balance:
-                self.state = states.transactionExit
-                return ErrorMessages.insufficient_funds
 
             # validate receiver can accept the amount
             if self.transfer_in_account.balance + amount > MAX_BALANCE:

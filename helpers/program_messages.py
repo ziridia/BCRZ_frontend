@@ -43,7 +43,7 @@ class ErrorMessages:
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 
     # transfer specific
-    daily_transfer_cap:str = "error: cannot exceed daily transfer cap of $1000.00"
+    daily_transfer_cap:str = "error: cannot transfer more than $1000 per session"
     cannot_transfer_to_yourself:str = "error: cannot transfer to the same account as is being transferred from"
 
     # changeplan specific
