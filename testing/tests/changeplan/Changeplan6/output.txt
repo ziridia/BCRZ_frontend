@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-error: account name does not exist
+error: account holder does not exist
 logged out

@@ -2,5 +2,5 @@ select desired session type (admin, standard)
 login successful
 enter account name
 enter account number
-error: Account number does not match with account name.
+error: account does not exist
 logged out

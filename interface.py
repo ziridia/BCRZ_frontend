@@ -13,6 +13,7 @@ from transaction_managers.logout_manager        import LogoutManager
 from user import User
 
 from helpers.debug_tools import debugPrint
+from helpers.program_messages import ErrorMessages
 
 class Interface:
 
@@ -52,6 +53,11 @@ class Interface:
         We can expect all transactions to be exactly 1 word. It should not be case sensitive
         """
         formatted_input = input.lower().strip()
+
+        if formatted_input == "":
+            Interface.user = Interface.transaction_manager.getUser()
+            Interface.transaction_manager = None
+            return ErrorMessages.no_input
         
         # if the transaction manager is null:
             # create a transaction manager depending on the input. Invalid input should not

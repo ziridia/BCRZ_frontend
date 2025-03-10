@@ -1,5 +1,0 @@
-login
-admin
-changeplan
-Incorrect N@me!
-logout

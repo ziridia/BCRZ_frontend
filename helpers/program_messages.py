@@ -36,6 +36,9 @@ class ErrorMessages:
 
     amount_cannot_be_negative:str = "error: amount cannot be negative"
 
+    # input parser
+    no_input:str = "error: no input provided"
+
     # Withdrawal specific
     daily_withdrawal_cap:str = "error: cannot exceed daily withdrawal cap of $500.00"
 

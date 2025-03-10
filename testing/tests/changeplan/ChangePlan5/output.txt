@@ -1,5 +1,5 @@
 select desired session type (admin, standard)
 enter account name
 login successful
-error: standard user not allowed to changeplan. 
+error: insufficient permissions
 logged out
