@@ -3,5 +3,5 @@ login successful
 enter account name
 enter account number
 enter amount to withdraw
-error: must withdraw a positive amount
+error: amount must be positive
 logged out

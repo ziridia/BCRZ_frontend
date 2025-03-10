@@ -3,5 +3,5 @@ login successful
 enter account name
 enter account number
 enter amount to withdraw
-error: amount must be numeric
+error: invalid amount
 logged out

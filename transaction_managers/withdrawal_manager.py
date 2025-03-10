@@ -89,11 +89,6 @@ class WithdrawalManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.invalid_amount
 
-            # make sure that this wouldn't eat into deposited amount this session
-            if self.account.balance - self.withdrawal_user.amount_deposited < amount:
-                self.state = states.transactionExit
-                return ErrorMessages.cannot_access_deposited_funds
-
             if amount <= 0:
                 self.state = states.transactionExit
                 return ErrorMessages.amount_must_be_positive
@@ -105,6 +100,12 @@ class WithdrawalManager(TransactionManager):
             if amount > self.account.balance:
                 self.state = states.transactionExit
                 return ErrorMessages.insufficient_funds
+
+            # make sure that this wouldn't eat into deposited amount this session
+            if self.account.balance - self.withdrawal_user.amount_deposited < amount:
+                self.state = states.transactionExit
+                return ErrorMessages.cannot_access_deposited_funds
+
 
             # attempt to update the balance of the account
             try:

@@ -3,5 +3,5 @@ admin
 withdrawal
 John Doe
 00001
-500.01
+249.99
 logout

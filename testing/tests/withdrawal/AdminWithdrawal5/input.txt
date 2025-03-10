@@ -1,7 +1,0 @@
-login
-admin
-withdrawal
-Withdrawal1
-00006
-250.000001
-logout
