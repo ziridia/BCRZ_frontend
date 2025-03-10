@@ -101,3 +101,6 @@ class SuccessMessages:
     # paybill specific
     enter_receiver_code:str = "enter receiver code"
     bill_paid:str = "bill paid"
+
+    # changeplan specific
+    changed_plan:str = "Account payment plan successfully changed from student to non-student."

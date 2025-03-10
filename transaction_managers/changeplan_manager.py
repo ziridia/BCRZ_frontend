@@ -92,7 +92,7 @@ class ChangeplanManager(TransactionManager):
 
             # success message and exit
             self.state = states.transactionExit
-            return SuccessMessages.transaction_success
+            return SuccessMessages.changed_plan
 
 
         self.state = states.transactionExit
