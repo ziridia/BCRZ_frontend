@@ -1,7 +1,7 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-enter account number to transfer from
+enter account number
 enter account name to transfer to
-error: account does not exist
+error: account holder does not exist
 logged out

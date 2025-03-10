@@ -7,5 +7,4 @@ transfer
 Rich
 00002
 John Doe
-00001
 logout

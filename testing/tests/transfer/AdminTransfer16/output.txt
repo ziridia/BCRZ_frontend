@@ -3,8 +3,7 @@ login successful
 enter account name
 enter account number
 account disabled
-enter account number to transfer from
-enter account name to transfer to
-enter account number to transfer to
-error: receiving account disabled
+enter account name
+enter account number
+error: account is disabled
 logged out

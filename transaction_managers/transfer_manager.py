@@ -6,7 +6,7 @@ from helpers.program_messages import ErrorMessages, SuccessMessages
 from helpers.read_in_accounts import getUser
 from helpers.money_parser import MoneyParser
 from helpers.transaction_logger import TransactionLogger
-from helpers.constants import TRANSFER_CAP, TRANSFER_IN_MSG, TRANSFER_OUT_MSG
+from helpers.constants import TRANSFER_CAP, TRANSFER_IN_MSG, TRANSFER_OUT_MSG, MAX_BALANCE
 
 from account import Account
 
@@ -162,7 +162,8 @@ class TransferManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.amount_must_be_positive
 
-            if self.transfer_out_user.amount_transferred + amount > TRANSFER_CAP:
+            # only do this check if not admin
+            if self.transfer_out_user.amount_transferred + amount > TRANSFER_CAP and not self.user.isAdmin():
                 self.state = states.transactionExit
                 return ErrorMessages.daily_transfer_cap
             
@@ -170,6 +171,10 @@ class TransferManager(TransactionManager):
                 self.state = states.transactionExit
                 return ErrorMessages.insufficient_funds
 
+            # validate receiver can accept the amount
+            if self.transfer_in_account.balance + amount > MAX_BALANCE:
+                self.state = states.transactionExit
+                return ErrorMessages.exceed_max_balance
 
             # update account balances
             try:
@@ -219,7 +224,7 @@ class TransferManager(TransactionManager):
                 return ErrorMessages.failed_to_log_transaction
 
             self.state = states.transactionExit
-            return SuccessMessages.transaction_success
+            return SuccessMessages.transfer_success
 
 
         self.state = states.transactionExit

@@ -3,7 +3,7 @@ admin
 transfer
 John Doe
 00001
-Rich
-00004
+max
+00003
 100
 logout

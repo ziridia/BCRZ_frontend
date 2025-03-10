@@ -1,6 +1,6 @@
 select desired session type (admin, standard)
 login successful
 enter account name
-enter account number to transfer from
-error: invalid account number
+enter account number
+error: account does not exist
 logged out
