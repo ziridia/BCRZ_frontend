@@ -30,8 +30,7 @@ class DepositManager(TransactionManager):
 
             self.state = states.transactionExit
             return ErrorMessages.not_logged_in
-
-
+        
         if self.state == states.beforeDeposit:
             
             # if the user is an admin, request the account name
@@ -51,18 +50,22 @@ class DepositManager(TransactionManager):
             if name == "" or self.depositUser == None:
 
                 self.state = states.transactionExit
-                return ErrorMessages.user_not_found
+                return ErrorMessages.account_not_found
 
             # ask for account number
             self.state = states.awaitAccountNumber
             return SuccessMessages.enter_account_number
-        
+            
         elif self.state == states.awaitAccountNumber:
 
             # get account from the user input
             try:
-
+                
                 self.depositAccount = TransactionManager.getAccountFromUser(self.depositUser, user_input)
+                
+                if self.depositAccount is None:
+                    self.state = states.transactionExit
+                    return ErrorMessages.invalid_account_number
             
             except Exception as e:
 
@@ -71,9 +74,10 @@ class DepositManager(TransactionManager):
 
             # ask for amount to deposit            
             self.state = states.awaitAmount
-            return SuccessMessages.enter_amount
+            return SuccessMessages.enter_to_deposit
         
         elif self.state == states.awaitAmount:
+            
             try:
                 # convert to int
                 amount = MoneyParser.stringToInt(user_input)
@@ -81,7 +85,13 @@ class DepositManager(TransactionManager):
                 # check that its positive
                 if amount <= 0:
                     self.state = states.transactionExit
-                    return ErrorMessages.invalid_amount
+                    return ErrorMessages.amount_must_be_positive
+                
+                # Check if the deposit would exceed the balance limit
+                new_balance = self.depositAccount.balance + amount
+                if new_balance > 999999999:
+                    self.state = states.transactionExit
+                    return ErrorMessages.exceed_max_balance
 
                 # update account balance
                 self.depositAccount.updateBalance(amount)

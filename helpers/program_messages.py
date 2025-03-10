@@ -21,7 +21,7 @@ class ErrorMessages:
 
     insufficient_permissions:str = "error: insufficient permissions"
 
-    amount_must_be_positive:str = "error: amount must be positive"
+    amount_must_be_positive:str = "error: must deposit a positive amount"
 
     failed_to_log_transaction:str = "error: unable to log transaction"
     failed_to_revert_transaction:str = "error: unable to revert transaction - mismatch between log and state"
@@ -30,9 +30,9 @@ class ErrorMessages:
 
     name_too_long:str = "error: account name must be between 1 and 20 characters long"
 
-    exceed_max_balance:str = "error: cannot exceed max balance of $999,999.99"
+    exceed_max_balance:str = "error: account balance cannot exceed $999,999.99"
 
-    account_disabled:str = "error: account is disabled"
+    account_disabled:str = "error: account has been disabled"
 
     amount_cannot_be_negative:str = "error: amount cannot be negative"
     
@@ -107,7 +107,8 @@ class SuccessMessages:
     account_disabled:str = "account disabled"
 
     # deposit specific
-    deposit_success:str = "deposit successful"
+    deposit_success:str = "successful deposit"
+    enter_to_deposit:str = "enter amount to deposit"
 
     # paybill specific
     enter_receiver_code:str = "enter receiver code"
