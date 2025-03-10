@@ -8,5 +8,5 @@ select desired session type (admin, standard)
 enter account name
 login successful
 enter account number
-error: account has been disabled
+error: account is disabled
 logged out

@@ -2,6 +2,6 @@ select desired session type (admin, standard)
 enter account name
 login successful
 enter account number
-enter amount to deposit
-error: account balance cannot exceed $999,999.99
+enter amount
+error: cannot exceed max balance of $999,999.99
 logged out

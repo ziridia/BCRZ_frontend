@@ -1,7 +1,7 @@
 login
 standard
-deposit
 John Doe
+deposit
 99999
 100
 logout

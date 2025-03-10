@@ -1,6 +1,6 @@
 login
-John Doe
 standard
+John Doe
 deposit
 00001
 -100

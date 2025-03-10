@@ -2,8 +2,9 @@ select desired session type (admin, standard)
 enter account name
 login successful
 enter account number
-enter amount to deposit
-Successful deposit
+enter amount
+deposit successful
+enter account number
 enter amount to withdraw
 error: funds deposited in current session cannot be accessed
-logout
+logged out
